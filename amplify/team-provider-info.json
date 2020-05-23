@@ -10,6 +10,14 @@
             "StackName": "amplify-customerapp-master-231519",
             "StackId": "arn:aws:cloudformation:ap-south-1:498681776600:stack/amplify-customerapp-master-231519/3a1bc600-93af-11ea-b333-0207d27cfd0c",
             "AmplifyAppId": "dqalzqkdnmotj"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "dqalzqkdnmotj",
+                    "type": "cicd"
+                }
+            }
         }
     }
 }

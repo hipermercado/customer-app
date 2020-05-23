@@ -7,6 +7,8 @@ import Home from './Home/Home';
 import AuthContext from './context/auth-context';
 import Amplify, { Auth } from 'aws-amplify';
 import awsAuthConfig from './Auth/Config';
+import Navbar from './Navbar/Navbar';
+import BottomNav from './Navbar/BottomNav';
 
 Amplify.configure({
   Auth: awsAuthConfig
@@ -14,7 +16,6 @@ Amplify.configure({
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState();
 
   useEffect(() => {
     currentUser();
@@ -36,19 +37,21 @@ const App = () => {
     } else {
       return (
         <AuthContext.Provider value={{authenticated: isLoggedIn}} >
-        <Router>
-          <div className="App">
-            <Switch> 
-              <PrivateRoute exact path='/' component={Home} /> 
-              <PrivateRoute exact path='/home' component={Home} /> 
-              <Route exact path='/login' render = 
-                {(props) => <PhoneNumber {...props} />} />
-              <Route exact path='/otp' render = 
-                {(props) => <OtpScreen {...props} loginHandler={setIsLoggedIn} />} />
-              <Route path="*" render={() => <Redirect to="/" /> } />
-            </Switch> 
-          </div>
-        </Router>
+          <Router>
+            <div className="App">
+              <Navbar/>
+              <Switch> 
+                <PrivateRoute exact path='/' component={Home} /> 
+                <PrivateRoute exact path='/home' component={Home} /> 
+                <Route exact path='/login' render = 
+                  {(props) => <PhoneNumber {...props} />} />
+                <Route exact path='/otp' render = 
+                  {(props) => <OtpScreen {...props} loginHandler={setIsLoggedIn} />} />
+                <Route path="*" render={() => <Redirect to="/" /> } />
+              </Switch> 
+              <BottomNav/>
+            </div>
+          </Router>
         </AuthContext.Provider>
       );
     }

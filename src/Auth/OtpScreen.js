@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router ,Route, Link, Switch, Redirect, withRouter, useHistory } from 'react-router-dom'; 
@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography'
 import Amplify, { Auth } from 'aws-amplify';
+import AuthContext from '../context/auth-context';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,6 +50,7 @@ const OtpScreen = (props) => {
     const history = useHistory();
     const [otp, setOtp] = useState('');
     const [user, setUser] = useState();
+    const authContext = useContext(AuthContext);
 
     useEffect(() => {
         signIn();
@@ -77,42 +79,50 @@ const OtpScreen = (props) => {
         setOtp(event.target.value);
     }
 
-    return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.header}>
-                <Typography className={classes.h6} variant="h6" component="h1" align="left" color="textPrimary">
-                        Verify mobile number
-                </Typography>
-                <Typography variant="subtitle2" component="h2" align="left" color="textSecondary">
-                        Enter the OTP sent to {props.location.state.phone}
-                </Typography>
-            </div>
-            <Divider variant="fullWidth" />
-            <div className={classes.paper}>
-                <TextField
-                    variant="standard"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="otp"
-                    label="Enter OTP"
-                    autoFocus={true}
-                    onChange={otpHandler}
-                    inputProps={{ inputMode: 'numeric', maxLength: 6 }}
-                />
-                <Button color="secondary" size="small" >RESEND OTP</Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    onClick={verifyHandler}
-                >
-                    Verify and Continue
-                </Button>
-            </div>
-        </Container>
-    );
+    const getDisplay = () => {
+        if (authContext.authenticated == true) {
+            return <Redirect to='/' />
+        } else {
+            return (
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <div className={classes.header}>
+                        <Typography className={classes.h6} variant="h6" component="h1" align="left" color="textPrimary">
+                                Verify mobile number
+                        </Typography>
+                        <Typography variant="subtitle2" component="h2" align="left" color="textSecondary">
+                                Enter the OTP sent to {props.location.state.phone}
+                        </Typography>
+                    </div>
+                    <Divider variant="fullWidth" />
+                    <div className={classes.paper}>
+                        <TextField
+                            variant="standard"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="otp"
+                            label="Enter OTP"
+                            autoFocus={true}
+                            onChange={otpHandler}
+                            inputProps={{ inputMode: 'numeric', maxLength: 4 }}
+                        />
+                        <Button color="secondary" size="small" >RESEND OTP</Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            onClick={verifyHandler}
+                        >
+                            Verify and Continue
+                        </Button>
+                    </div>
+                </Container>
+            );
+        }
+    }
+
+    return getDisplay();
 }
 
 export default OtpScreen;
