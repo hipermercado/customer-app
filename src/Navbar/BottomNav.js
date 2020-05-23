@@ -7,6 +7,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AuthContext from '../context/auth-context';
 import { useLocation, useHistory } from 'react-router-dom';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const useStyles = makeStyles({
     root: {
@@ -47,11 +48,14 @@ const BottomNav = () => {
     const getDisplay = () => {
         if (authContext.authenticated) {
             return (
-                <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-                  <BottomNavigationAction label="Home" value="home" icon={<HomeIcon className={classes.icon}/>} />
-                  <BottomNavigationAction label="Orders" value="orders" icon={<LocalMallIcon className={classes.icon}/>} />
-                  <BottomNavigationAction label="Account" value="account" icon={<PersonIcon className={classes.icon}/>} />
-                </BottomNavigation>
+                <React.Fragment>
+                    <Toolbar />
+                    <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
+                    <BottomNavigationAction label="Home" value="home" icon={<HomeIcon className={classes.icon}/>} />
+                    <BottomNavigationAction label="Orders" value="orders" icon={<LocalMallIcon className={classes.icon}/>} />
+                    <BottomNavigationAction label="Account" value="account" icon={<PersonIcon className={classes.icon}/>} />
+                    </BottomNavigation>
+                </React.Fragment>
             );
         }
         return null;
