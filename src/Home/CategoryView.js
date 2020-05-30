@@ -33,73 +33,73 @@ const useStyles = makeStyles((theme) => ({
 
 const categories = [
     {
-        categoryId: "groceries",
+        categoryId: "groceries1",
         categoryName: "Groceries & Essentials",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "fruitsVeggies",
+        categoryId: "fruitsVeggies1",
         categoryName: "Fruits & Vegetables",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "medicines",
+        categoryId: "medicines1",
         categoryName: "Medicines",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "groceries",
+        categoryId: "groceries2",
         categoryName: "Groceries & Essentials",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "fruitsVeggies",
+        categoryId: "fruitsVeggies2",
         categoryName: "Fruits & Vegetables",
         categoryStatus: "ONVACATION",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "medicines",
+        categoryId: "medicines2",
         categoryName: "Medicines",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "groceries",
+        categoryId: "groceries3",
         categoryName: "Groceries & Essentials",
         categoryStatus: "ONVACATION",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "fruitsVeggies",
+        categoryId: "fruitsVeggies3",
         categoryName: "Fruits & Vegetables",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "medicines",
+        categoryId: "medicines3",
         categoryName: "Medicines",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "groceries",
+        categoryId: "groceries4",
         categoryName: "Groceries & Essentials",
         categoryStatus: "ONVACATION",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "fruitsVeggies",
+        categoryId: "fruitsVeggies4",
         categoryName: "Fruits & Vegetables",
         categoryStatus: "LIVE",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
     },
     {
-        categoryId: "medicines",
+        categoryId: "medicines4",
         categoryName: "Medicines",
         categoryStatus: "ONVACATION",
         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
@@ -111,7 +111,7 @@ const CategoryView = () => {
     let itemCount = 0;
 
     const categoryItem = (categoryId, categoryName, categoryImage, isLastRow) => {
-        return <Grid item xs={4} className={isLastRow ? classes.gridItemLastRow : classes.gridItem} key={categoryId+""+itemCount}>
+        return <Grid item xs={4} className={isLastRow ? classes.gridItemLastRow : classes.gridItem} key={categoryId}>
             <Paper className={classes.paper} elevation={0}>
                 <img src={categoryImage} className={classes.categoryImage} alt={categoryName} />
                 <Typography className={classes.categoryName}
@@ -128,13 +128,10 @@ const CategoryView = () => {
         const liveCategories = categories.filter(category => category.categoryStatus === 'LIVE');
         const liveCatCount = liveCategories.length;
         const lastRowCount = Math.ceil(liveCatCount/3)*3 - 3;
-        console.log("lastRowCount: " + lastRowCount);
         return liveCategories.map(category => {
             if(category.categoryStatus === 'LIVE') {
                 itemCount = itemCount + 1;
-                console.log("itemCount: " + itemCount);
                 const isLastRow = (itemCount > lastRowCount);
-                console.log("isLastRow: " + isLastRow);
                 return categoryItem(category.categoryId, category.categoryName, category.categoryImage, isLastRow);
             }
         });

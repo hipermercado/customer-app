@@ -1,9 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Carousel from './Carousel';
 import Divider from '@material-ui/core/Divider';
 import CategoryView from './CategoryView'
+import { useHistory } from 'react-router-dom'; 
+import { getAddressForCurrentUser } from '../API/Cache/address-cache';
+import withNav from '../Navbar/WithNav';
+import Navbar from '../Navbar/Navbar';
+import BottomNav from '../Navbar/BottomNav';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -13,16 +18,34 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = (props) => {
     const classes = useStyles();
+    const history = useHistory();
+
+    const [isAddressSet, setAddressSet] = useState(false);
+    
+    useEffect(() => {
+        getAddressForCurrentUser().then(address => {
+            console.log(address);
+            setAddressSet(true);
+            if (Object.keys(address).length === 0 && address.constructor === Object) {
+                history.push('/address');
+            }
+        })
+    }, []);
 
     return (
-        <Paper className={classes.home} elevation={0}>
-            <Divider />
-           <Carousel />
-           <Divider />
-           <CategoryView />
-        </Paper>
-        
-    )
+       isAddressSet ? 
+            <React.Fragment>
+                <Navbar />
+                <Paper className={classes.home} elevation={0}>
+                    <Divider />
+                    <Carousel />
+                    <Divider />
+                    <CategoryView />
+                </Paper>
+                <BottomNav />
+            </React.Fragment>
+        : null 
+    );
 }
 
 export default Home;

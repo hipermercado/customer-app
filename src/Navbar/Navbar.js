@@ -3,12 +3,14 @@ import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import AuthContext from '../context/auth-context'
+// import AuthContext from '../context/auth-context'
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import AddressInfo from './AddressInfo'
+import isUserLoggedIn from '../Auth/check-auth';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props) => {
     const classes = useStyles();
-    const authContext = useContext(AuthContext);
+    const history = useHistory();
+    // const authContext = useContext(AuthContext);
 
     function ElevationScroll(props) {
         const { children, window } = props;
@@ -55,7 +58,7 @@ const Navbar = (props) => {
     };
 
     const getDispay = () => {
-        if (authContext.authenticated) {
+        if (isUserLoggedIn()) {
             return (
                 <div className={classes.root}>
                         <CssBaseline />
@@ -72,8 +75,9 @@ const Navbar = (props) => {
                         <Toolbar />
                 </div>
             );
+        } else {
+            return <Redirect to='/' />;
         }
-        return null;
     }
 
     return getDispay();

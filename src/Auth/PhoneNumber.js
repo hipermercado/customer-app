@@ -7,7 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Amplify, { Auth } from 'aws-amplify';
-import AuthContext from '../context/auth-context';
+import isUserLoggedIn from './check-auth';
+// import AuthContext from '../context/auth-context';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,7 +35,7 @@ const PhoneNumber = (props) => {
     const history = useHistory();
     const [phone, setPhone] = useState('');
     const [enableContinue, setEnableContinue] = useState(false);
-    const authContext = useContext(AuthContext);
+    // const authContext = useContext(AuthContext);
 
     const handlePhoneInput = (event) => {
         if (event.target.value.length < 10) {
@@ -70,7 +71,8 @@ const PhoneNumber = (props) => {
     }
 
     const getDisplay = () => {
-        if (authContext.authenticated == true) {
+        // if (authContext.authenticated == true) {
+        if (isUserLoggedIn() === true) {
             return <Redirect to='/' />
         } else {
             return (

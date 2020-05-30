@@ -4,10 +4,12 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
-import AuthContext from '../context/auth-context';
-import { useLocation, useHistory } from 'react-router-dom';
+// import AuthContext from '../context/auth-context';
+import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Toolbar from '@material-ui/core/Toolbar';
+import isUserLoggedIn from '../Auth/check-auth';
+
 
 const useStyles = makeStyles({
     root: {
@@ -25,7 +27,7 @@ const BottomNav = () => {
     const history = useHistory();
     const classes = useStyles();
     const [value, setValue] = React.useState();
-    const authContext = useContext(AuthContext);
+    // const authContext = useContext(AuthContext);
 
     const getLocation = () => {
         if(location.pathname === '/' || location.pathname === '/home') {
@@ -46,7 +48,8 @@ const BottomNav = () => {
     };
 
     const getDisplay = () => {
-        if (authContext.authenticated) {
+        // if (authContext.authenticated) {
+        if (isUserLoggedIn()) {
             return (
                 <React.Fragment>
                     <Toolbar />
@@ -57,8 +60,10 @@ const BottomNav = () => {
                     </BottomNavigation>
                 </React.Fragment>
             );
+        } else {
+            return <Redirect to='/' />
         }
-        return null;
+        //return null;
     }
     
     return getDisplay();

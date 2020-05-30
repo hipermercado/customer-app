@@ -4,21 +4,58 @@ import PhoneNumber from './Auth/PhoneNumber';
 import OtpScreen from './Auth/OtpScreen';
 import PrivateRoute from './Router/PrivateRoute';
 import Home from './Home/Home';
-import AuthContext from './context/auth-context';
+// import AuthContext from './context/auth-context';
 import Amplify, { Auth } from 'aws-amplify';
 import awsAuthConfig from './Auth/Config';
-import Navbar from './Navbar/Navbar';
-import BottomNav from './Navbar/BottomNav';
+import awsAPIConfig from './API/Config';
+import isUserLoggedIn, {saveLoginInLocalStorage, removeLoginInFromLocalStorage} from './Auth/check-auth';
+import { Hub, Logger } from 'aws-amplify';
+import { clearAllCache } from './API/Cache/clear-cache';
+import addressApi from './API/Address/AddressAPI';
+import Address from './Address/Address';
 
 Amplify.configure({
-  Auth: awsAuthConfig
+  Auth: awsAuthConfig,
+  API: awsAPIConfig
 });
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  
+  const logger = new Logger('My-Logger');
+  const listener = (data) => {
+    switch (data.payload.event) {
+      case 'signIn':
+        logger.error('user signed in'); //[ERROR] My-Logger - user signed in
+        saveLoginInLocalStorage();
+        setIsLoggedIn(true);
+        break;
+      case 'signUp':
+        logger.error('user signed up');
+        break;
+      case 'signOut':
+        logger.error('user signed out');
+        removeLoginInFromLocalStorage();
+        clearAllCache();
+        setIsLoggedIn(false);
+        break;
+      case 'signIn_failure':
+        setIsLoggedIn(false);
+        removeLoginInFromLocalStorage();
+        logger.error('user sign in failed');
+        break;
+      case 'configured':
+          logger.error('the Auth module is configured');
+    }
+  }
 
   useEffect(() => {
-    currentUser();
+    Hub.listen('auth', listener);
+    if (isUserLoggedIn()) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
   }, [])
 
   const currentUser = () => {
@@ -36,23 +73,23 @@ const App = () => {
       return <div>Loading!</div>
     } else {
       return (
-        <AuthContext.Provider value={{authenticated: isLoggedIn}} >
+        // <AuthContext.Provider value={{authenticated: isLoggedIn}} >
           <Router>
             <div className="App">
-              <Navbar/>
+              {/* <Navbar/> */}
               <Switch> 
                 <PrivateRoute exact path='/' component={Home} /> 
                 <PrivateRoute exact path='/home' component={Home} /> 
+                <PrivateRoute exact path='/address' component={Address} /> 
                 <Route exact path='/login' render = 
                   {(props) => <PhoneNumber {...props} />} />
                 <Route exact path='/otp' render = 
                   {(props) => <OtpScreen {...props} loginHandler={setIsLoggedIn} />} />
                 <Route path="*" render={() => <Redirect to="/" /> } />
               </Switch> 
-              <BottomNav/>
             </div>
           </Router>
-        </AuthContext.Provider>
+        // </AuthContext.Provider>
       );
     }
   }

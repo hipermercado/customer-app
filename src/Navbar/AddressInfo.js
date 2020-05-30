@@ -1,9 +1,11 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import { getAddressForCurrentUser } from '../API/Cache/address-cache';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,9 +31,25 @@ const useStyles = makeStyles((theme) => ({
 
 const AddressInfo = () => {
     const classes = useStyles();
+    const history = useHistory();
+    const [address, setAddress] = useState('');
+
+    useEffect(() => {
+        getAddressForCurrentUser().then((address) => {
+            let addressDisplay = address.addressField1;
+            if (address.addressField2) {
+                addressDisplay = addressDisplay + ", " + address.addressField2;
+            }
+            if (address.city) {
+                addressDisplay = addressDisplay + ", " + address.city;
+            }
+            addressDisplay = addressDisplay + ", " + address.pincode;
+            setAddress(addressDisplay);
+        }).catch((err) => console.log(err));
+    }, []);
 
     return (
-        <Grid container spacing={0} className={classes.root}>
+        <Grid container spacing={0} className={classes.root}  onClick = {() => history.push('/address')} >
             <Grid item>
                 <IconButton edge="start" color="primary" className={classes.iconButton}>
                     <LocationOnOutlinedIcon className={classes.icon}/>
@@ -44,7 +62,7 @@ const AddressInfo = () => {
                     </Typography>
                     <Typography variant="caption" noWrap={true} 
                         className={classes.addressField}>
-                        9/419/2, Charan Kanwal Road, Banga, 144505
+                        {address}
                     </Typography>
                 </Grid>
             </Grid>
