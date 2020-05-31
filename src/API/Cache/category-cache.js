@@ -1,7 +1,7 @@
 import categoryAPI from '../Category/CategoryAPI'
 
 const getAllCategories = async () => {
-    const TTL = 1000 * 60 * 2; // in milliseconds
+    const TTL = 1000 * 60 * 60 * 3; // in milliseconds
     const dataKey = 'categories';
     const timeKey = 'categories-time';
 
