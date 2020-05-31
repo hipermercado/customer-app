@@ -11,10 +11,12 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import AddressInfo from './AddressInfo'
 import isUserLoggedIn from '../Auth/check-auth';
 import { Redirect, useHistory } from 'react-router-dom';
+import { Typography } from '@material-ui/core';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
     icon: {
         fontSize: '30px',
@@ -22,9 +24,17 @@ const useStyles = makeStyles((theme) => ({
     toolbar: {
         paddingRight: '4px',
     },
-    butto: {
+    button: {
         marginLeft: 'auto',
     },
+    back: {
+        marginLeft: -theme.spacing(2),
+        paddingLeft: theme.spacing(1.5),
+        paddingRight: theme.spacing(1.5)
+    },
+    categoryName: {
+        paddingLeft: theme.spacing(0.5),
+    }
 }));
 
 const Navbar = (props) => {
@@ -57,6 +67,20 @@ const Navbar = (props) => {
         window: PropTypes.func,
     };
 
+    const displayCategoryName = () => {
+        return <React.Fragment>
+            <IconButton color="default" 
+                className={classes.back}
+                onClick = {() => history.goBack()}>
+                <ArrowBackIcon className={classes.icon}/>
+            </IconButton>
+            <Typography variant="h6" style={{width:'100%'}} 
+                className={classes.categoryName}>
+                {props.categoryName}
+            </Typography>
+        </React.Fragment>
+    }
+
     const getDispay = () => {
         if (isUserLoggedIn()) {
             return (
@@ -65,8 +89,9 @@ const Navbar = (props) => {
                         <ElevationScroll {...props}>
                             <AppBar position="fixed" color='inherit'>
                                 <Toolbar className={classes.toolbar}>
-                                    <AddressInfo />
-                                    <IconButton color="action" className={classes.button}>
+                                    {props.categoryName ? displayCategoryName() : null}       
+                                    {props.showAddress ? <AddressInfo /> : null }
+                                    <IconButton color="default" className={classes.button}>
                                         <ShoppingCartOutlinedIcon className={classes.icon}/>
                                     </IconButton>
                                 </Toolbar>

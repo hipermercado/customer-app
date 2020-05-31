@@ -52,9 +52,9 @@ const CarouselWrapper = (props) => {
                 deviceType={"mobile"}
                 >
                     {
-                        images.map(image => {
+                        images.map((image, index) => {
                             return (
-                                <Card className={classes.card}>
+                                <Card className={classes.card} key={index}>
                                     <CardMedia
                                         className={classes.media}
                                         image={image}

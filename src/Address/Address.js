@@ -133,6 +133,7 @@ const Address = (props) => {
             }
             <div className={classes.paper}>
                 <TextField
+                    key="Address Field 1"
                     variant="standard"
                     margin="normal"
                     required
@@ -144,6 +145,7 @@ const Address = (props) => {
                     onChange={addressChangeHandler}
                 />
                 <TextField
+                    key="Address Field 2"
                     variant="standard"
                     margin="normal"
                     fullWidth
@@ -156,6 +158,7 @@ const Address = (props) => {
                     // onChange={}
                 />
                 <TextField
+                    key="Pincode"
                     variant="standard"
                     margin="normal"
                     required
@@ -169,6 +172,7 @@ const Address = (props) => {
                     // onChange={}
                 />
                 <TextField
+                    key="City"
                     variant="standard"
                     margin="normal"
                     fullWidth
@@ -180,6 +184,7 @@ const Address = (props) => {
                     // onChange={}
                 />
                 <TextField
+                    key="Landmark"
                     variant="standard"
                     margin="normal"
                     fullWidth

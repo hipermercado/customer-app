@@ -30,7 +30,8 @@ const ErrorAlert = (props) => {
 
     return (
         <div className={classes.root}>
-            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
                 <Alert onClose={handleClose} severity="error">
                     {props.message}
                 </Alert>

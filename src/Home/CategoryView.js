@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import ButtonBase from '@material-ui/core/ButtonBase'
+import { useHistory } from 'react-router-dom'; 
+import {getAllCategories} from '../API/Cache/category-cache';
 
 const useStyles = makeStyles((theme) => ({
     gridItem: {
@@ -22,6 +25,13 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
+    base: {
+        padding: theme.spacing(1),
+        width: '100%',
+        height: '100%'
+        // textAlign: 'center',
+        // color: theme.palette.text.secondary,
+    },
     categoryName: {
         fontSize: '0.65rem',
     },
@@ -31,87 +41,104 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const categories = [
-    {
-        categoryId: "groceries1",
-        categoryName: "Groceries & Essentials",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "fruitsVeggies1",
-        categoryName: "Fruits & Vegetables",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "medicines1",
-        categoryName: "Medicines",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "groceries2",
-        categoryName: "Groceries & Essentials",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "fruitsVeggies2",
-        categoryName: "Fruits & Vegetables",
-        categoryStatus: "ONVACATION",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "medicines2",
-        categoryName: "Medicines",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "groceries3",
-        categoryName: "Groceries & Essentials",
-        categoryStatus: "ONVACATION",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "fruitsVeggies3",
-        categoryName: "Fruits & Vegetables",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "medicines3",
-        categoryName: "Medicines",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "groceries4",
-        categoryName: "Groceries & Essentials",
-        categoryStatus: "ONVACATION",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "fruitsVeggies4",
-        categoryName: "Fruits & Vegetables",
-        categoryStatus: "LIVE",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-    },
-    {
-        categoryId: "medicines4",
-        categoryName: "Medicines",
-        categoryStatus: "ONVACATION",
-        categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-    },
-];
+// const categories = [
+//     {
+//         categoryId: "groceries",
+//         categoryName: "Groceries & Essentials",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "fruitsVeggies1",
+//         categoryName: "Fruits & Vegetables",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "medicines1",
+//         categoryName: "Medicines",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "groceries2",
+//         categoryName: "Groceries & Essentials",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "fruitsVeggies2",
+//         categoryName: "Fruits & Vegetables",
+//         categoryStatus: "ONVACATION",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "medicines2",
+//         categoryName: "Medicines",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "groceries3",
+//         categoryName: "Groceries & Essentials",
+//         categoryStatus: "ONVACATION",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "fruitsVeggies3",
+//         categoryName: "Fruits & Vegetables",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "medicines3",
+//         categoryName: "Medicines",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "groceries4",
+//         categoryName: "Groceries & Essentials",
+//         categoryStatus: "ONVACATION",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "fruitsVeggies4",
+//         categoryName: "Fruits & Vegetables",
+//         categoryStatus: "LIVE",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+//     {
+//         categoryId: "medicines4",
+//         categoryName: "Medicines",
+//         categoryStatus: "ONVACATION",
+//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
+//     },
+// ];
 
 const CategoryView = () => {
     const classes = useStyles();
+    const history = useHistory();
+    const [categories, setCategories] = useState([]);
     let itemCount = 0;
+
+    useEffect(() => {
+        getAllCategories().then(categories => {
+            setCategories(categories);
+        }).catch(err => console.log(err));
+    }, []);
+
+    const clickHandler = (categoryId, categoryName) => {
+        history.push({
+            pathname: '/product',
+            search: '?categoryId='+categoryId,
+            state: { categoryName: categoryName }
+        });
+    }
 
     const categoryItem = (categoryId, categoryName, categoryImage, isLastRow) => {
         return <Grid item xs={4} className={isLastRow ? classes.gridItemLastRow : classes.gridItem} key={categoryId}>
+            <ButtonBase className={classes.base} key={categoryId} onClick={() => clickHandler(categoryId, categoryName)}>
             <Paper className={classes.paper} elevation={0}>
                 <img src={categoryImage} className={classes.categoryImage} alt={categoryName} />
                 <Typography className={classes.categoryName}
@@ -121,7 +148,8 @@ const CategoryView = () => {
                     {categoryName}
                 </Typography>
             </Paper>
-        </Grid>
+            </ButtonBase>
+            </Grid>
     }
 
     const categoryTable = () => {

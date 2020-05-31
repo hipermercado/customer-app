@@ -4,7 +4,6 @@ import PhoneNumber from './Auth/PhoneNumber';
 import OtpScreen from './Auth/OtpScreen';
 import PrivateRoute from './Router/PrivateRoute';
 import Home from './Home/Home';
-// import AuthContext from './context/auth-context';
 import Amplify, { Auth } from 'aws-amplify';
 import awsAuthConfig from './Auth/Config';
 import awsAPIConfig from './API/Config';
@@ -13,6 +12,8 @@ import { Hub, Logger } from 'aws-amplify';
 import { clearAllCache } from './API/Cache/clear-cache';
 import addressApi from './API/Address/AddressAPI';
 import Address from './Address/Address';
+import Product from './Product/Product';
+import 'typeface-roboto';
 
 Amplify.configure({
   Auth: awsAuthConfig,
@@ -81,6 +82,7 @@ const App = () => {
                 <PrivateRoute exact path='/' component={Home} /> 
                 <PrivateRoute exact path='/home' component={Home} /> 
                 <PrivateRoute exact path='/address' component={Address} /> 
+                <PrivateRoute exact path='/product' component={Product} /> 
                 <Route exact path='/login' render = 
                   {(props) => <PhoneNumber {...props} />} />
                 <Route exact path='/otp' render = 

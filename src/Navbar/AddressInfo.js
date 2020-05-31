@@ -49,6 +49,7 @@ const AddressInfo = () => {
     }, []);
 
     return (
+        
         <Grid container spacing={0} className={classes.root}  onClick = {() => history.push('/address')} >
             <Grid item>
                 <IconButton edge="start" color="primary" className={classes.iconButton}>

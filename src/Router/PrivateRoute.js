@@ -7,16 +7,14 @@ import BottomNav from '../Navbar/BottomNav';
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => {    
+    const noNavBarPath = ['/', '/address', '/home']
     return (
         <Route {...rest} render={(props) => {
-            console.log(props);
-            console.log(isUserLoggedIn()); 
             return isUserLoggedIn()
             ? (
                 <React.Fragment>
-                    {/* {props.history.location.pathname !== '/address' ? <Navbar /> : null} */}
                     <Component {...props} />
-                    {/* {props.history.location.pathname !== '/address' ? <BottomNav /> : null} */}
+                    {!noNavBarPath.includes(props.history.location.pathname) ? <BottomNav /> : null}
                 </React.Fragment>
             )
             : <Redirect to='/login' />

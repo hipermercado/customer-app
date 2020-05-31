@@ -24,7 +24,6 @@ const Home = (props) => {
     
     useEffect(() => {
         getAddressForCurrentUser().then(address => {
-            console.log(address);
             setAddressSet(true);
             if (Object.keys(address).length === 0 && address.constructor === Object) {
                 history.push('/address');
@@ -35,7 +34,7 @@ const Home = (props) => {
     return (
        isAddressSet ? 
             <React.Fragment>
-                <Navbar />
+                <Navbar showAddress={true} />
                 <Paper className={classes.home} elevation={0}>
                     <Divider />
                     <Carousel />
