@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     },
 });  
 
-const BottomNav = () => {
+const BottomNav = (props) => {
     const location = useLocation();
     const history = useHistory();
     const classes = useStyles();
@@ -31,20 +31,26 @@ const BottomNav = () => {
 
     const getLocation = () => {
         if(location.pathname === '/' || location.pathname === '/home') {
-            return 'home'
+            return 'home';
+        } else if(location.pathname === '/orders') {
+            return 'orders';
+        } else if(location.pathname === '/account') {
+            return 'account';
         }
         return 'home';
     }
 
     useEffect(() => {
-        setValue(getLocation());
+        setValue(prevValue => {
+            const newValue = getLocation();
+            if (prevValue !== newValue){
+                return newValue;
+            }
+        });
     }, [])
   
     const handleChange = (event, newValue) => {
-        if (newValue === 'home') {
-            history.push('/home')
-        }
-        setValue(newValue);
+        history.push('/' + newValue);
     };
 
     const getDisplay = () => {

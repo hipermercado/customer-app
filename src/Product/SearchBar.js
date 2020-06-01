@@ -5,7 +5,8 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { Container } from '@material-ui/core';
+import { Container, AppBar, Toolbar } from '@material-ui/core';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,14 +16,13 @@ const useStyles = makeStyles((theme) => ({
         width: '95%',
         border: '2px solid rgba(0, 0, 0, 0.12)',
         borderRadius: '6px',
-        marginBottom: theme.spacing(1),
     },
     input: {
         marginLeft: theme.spacing(1),
         flex: 1,
     },
     iconButton: {
-        padding: 10,
+        padding: '6px',
     },
 }));
 
@@ -37,14 +37,9 @@ const SearchBar = (props) => {
             <InputBase
                 className={classes.input}
                 placeholder="Search for product"
-                onChange={props.filterHandler}
-                onKeyPress={event => {
-                    const inputValue = event.key;
-                    if (!((inputValue >= 'a' && inputValue <= 'z')|| 
-                            (inputValue >= 'A' && inputValue <= 'Z') || inputValue === ' ')) {
-                        event.preventDefault(); 
-                    }
-                }}
+                value={props.searchText}
+                autoFocus={true}
+                onChange={(event) => props.filterHandler(event)}
             />
         </Container>
     );

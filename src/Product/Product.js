@@ -4,7 +4,32 @@ import { getProductForCategory, getProduct } from '../API/Cache/product-cache';
 import { Divider } from '@material-ui/core';
 import SearchBar from './SearchBar';
 import Navbar from '../Navbar/Navbar';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import ProductItem from './ProductItem';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: '8px 12px',
+        marginBottom: theme.spacing(0.5),
+    },
+    product: {
+        fontWeight: '450',
+        lineHeight: '1.2',
+    },
+    priceBlock: {
+
+    },
+    mrp: {
+        textDecoration: 'line-through',
+    }
+  }));
 
 const Product = (props) => {
     const categoryId = queryString.parse(props.location.search).categoryId;
@@ -12,6 +37,8 @@ const Product = (props) => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [productTermsMap, setProductTemsMap] = useState({});
+    const [searchValue, setSearchValue] = useState('');
+    const classes = useStyles();
 
     useEffect(() => {
         getProductForCategory(categoryId).then((data) => {
@@ -43,22 +70,11 @@ const Product = (props) => {
     }
 
     const getProducts = () => {
-        return filteredProducts.map(product => {
-            return <div>
-                {/* {product.productId}
-                {product.categoryId} */}
-                {product.productName + "    " + product.perProductUnit + "    Rs." + 
-                        product.buyingPrice + "    " +  product.productBrand}
-                {/* {product.perProductUnit} 
-                {product.buyingPrice}  
-                {product.maximumRetailPrice}
-                {product.productBrand}
-                {product.inventory} */}
-            </div>
-        })
+        return filteredProducts.map(product => <ProductItem product={product} />);
     }
 
     const searchFilterHandler = (event) => {
+        setSearchValue(event.target.value);
         const searchQuery = event.target.value.trim();
         if (searchQuery) {
             const searchQueries = (searchQuery.toLowerCase())
@@ -82,17 +98,6 @@ const Product = (props) => {
                 }
                 return true;
             });
-            
-
-            // const filteredList = allProducts.filter(product => {
-            //     const productTerms = productTermsMap[product.productId];
-            //     const filteredProdcutTerms = productTerms.filter(productTerm => {
-            //         const matchedQueries = searchQueries.filter(searchQuery => 
-            //             (productTerm.search(searchQuery) !== -1));
-            //         return matchedQueries.length > 0;
-            //     });
-            //     return filteredProdcutTerms.length > 0;
-            // });
             setFilteredProducts(filteredList);
         } else {
             setFilteredProducts(allProducts);
@@ -101,8 +106,10 @@ const Product = (props) => {
 
     return (
         <React.Fragment>
-            <Navbar categoryName={categoryName} />
-            <SearchBar filterHandler={searchFilterHandler} />
+            <Navbar categoryName={categoryName} 
+                showSearch={true} 
+                filterHandler={searchFilterHandler}
+                searchText={searchValue} />
             <Divider />
             {getProducts()}
         </React.Fragment>

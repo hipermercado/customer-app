@@ -13,7 +13,8 @@ import { clearAllCache } from './API/Cache/clear-cache';
 import addressApi from './API/Address/AddressAPI';
 import Address from './Address/Address';
 import Product from './Product/Product';
-import 'typeface-roboto';
+import Orders from './Orders/Orders';
+import Account from './Account/Account';
 
 Amplify.configure({
   Auth: awsAuthConfig,
@@ -83,6 +84,8 @@ const App = () => {
                 <PrivateRoute exact path='/home' component={Home} /> 
                 <PrivateRoute exact path='/address' component={Address} /> 
                 <PrivateRoute exact path='/product' component={Product} /> 
+                <PrivateRoute exact path='/orders' component={Orders} /> 
+                <PrivateRoute exact path='/account' component={Account} /> 
                 <Route exact path='/login' render = 
                   {(props) => <PhoneNumber {...props} />} />
                 <Route exact path='/otp' render = 

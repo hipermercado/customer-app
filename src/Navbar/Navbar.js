@@ -13,6 +13,11 @@ import isUserLoggedIn from '../Auth/check-auth';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import SearchBar from '../Product/SearchBar';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -74,7 +79,7 @@ const Navbar = (props) => {
                 onClick = {() => history.goBack()}>
                 <ArrowBackIcon className={classes.icon}/>
             </IconButton>
-            <Typography variant="h6" style={{width:'100%'}} 
+            <Typography noWrap={true} variant="h6" style={{width:'100%'}} 
                 className={classes.categoryName}>
                 {props.categoryName}
             </Typography>
@@ -95,9 +100,13 @@ const Navbar = (props) => {
                                         <ShoppingCartOutlinedIcon className={classes.icon}/>
                                     </IconButton>
                                 </Toolbar>
+                                {props.showSearch ? 
+                                        <SearchBar filterHandler={props.filterHandler} searchText={props.searchText}/> 
+                                : null}
                             </AppBar>
                         </ElevationScroll>
                         <Toolbar />
+                        {props.showSearch ? <Toolbar style={{minHeight: '52px'}}/> : null }
                 </div>
             );
         } else {
