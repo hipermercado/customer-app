@@ -9,7 +9,7 @@ const getProductForCategory = async (categoryId) => {
         localStorage.removeItem(dataKey);
     }
 
-    if (localStorage.getItem(dataKey) === null || localStorage.getItem(dataKey).length === 0 ||
+    if (localStorage.getItem(dataKey) === null || JSON.parse(localStorage.getItem(dataKey)).length === 0 ||
             JSON.parse(localStorage.getItem(dataKey)).length === 0) {
         try {
             const products = await productApi.get('all', categoryId);
@@ -32,12 +32,15 @@ const getProduct = async (categoryId, productId) => {
         localStorage.removeItem(dataKey);
     }
 
-    if (localStorage.getItem(dataKey) === null || localStorage.getItem(dataKey).length === 0) {
+    if (localStorage.getItem(dataKey) === null || JSON.parse(localStorage.getItem(dataKey)).length === 0) {
         try {
             const products = await productApi.get('single', categoryId, productId);
             console.log(products);
-            localStorage.setItem(timeKey, new Date().getTime());
-            localStorage.setItem(dataKey, JSON.stringify(products));
+            if (products.length > 0) {
+                const product = products[0];
+                localStorage.setItem(timeKey, new Date().getTime());
+                localStorage.setItem(dataKey, JSON.stringify(product));
+            }
         } catch (error) {
             console.log(error);
         }

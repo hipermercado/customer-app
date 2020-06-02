@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { addToCart, getCartCountForProduct } from '../API/Cache/cart-cache';
+import { Hub } from '@aws-amplify/core';
 
 const useStyles = makeStyles((theme) => ({
     decrementButton: {
@@ -19,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
     },
     quantityDisplay: {
         fontWeight: '600',
-        color: theme.palette.secondary,
+        color: 'black',
         "&$buttonDisabled": {
             fontWeight: '600',
             border: '1px solid #3f51b5',
-            color: theme.palette.secondary.main
+            color: 'black',
         }
     },
     buttonDisabled: {},
@@ -31,16 +33,52 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '600'
     }
 }));
+
+const useDidMountEffect = (func, deps) => {
+    const didMount = useRef(false);
+
+    useEffect(() => {
+        if (didMount.current) func();
+        else didMount.current = true;
+    }, deps);
+}
+
+
 const AddToCart = (props) => {
-    const [count, setCount] = useState(props.productCount);
+    const product = props.product;
+    const [count, setCount] = useState(0);
     const classes = useStyles();
 
+    useEffect(() => {
+        getCartCountForProduct(product.productId).then(cartCount => {
+            setCount(cartCount);
+        }).catch(err => console.log(err));
+    }, []);
+
+    useDidMountEffect(() => {
+        console.log('change in cart');
+        Hub.dispatch(
+            'CartCount', 
+            { 
+                event: 'addToCart', 
+                data: count, 
+                message:'change in count' 
+            });
+    }, [count]);
+
     const handleIncrement = (e) => {
-       setCount(prevCount => prevCount +  1);
+        setCount(prevCount => {
+            addToCart(product.productId, product.categoryId, prevCount +  1);
+            return prevCount +  1;
+        });
+        
     };
     
     const handleDecrement = (e) => {
-        setCount(prevCount => prevCount -  1);
+        setCount(prevCount => {
+            addToCart(product.productId, product.categoryId, prevCount -  1);
+            return prevCount -  1;
+        });
     };
 
     const getButtons = () => {

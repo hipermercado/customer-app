@@ -64,7 +64,7 @@ const ProductItem = (props) => {
                             </Grid>
                         </Grid>
                         <Grid item>
-                            <AddToCart productCount={0} />
+                            <AddToCart product={product} />
                         </Grid>
                     </Grid>
                 </Grid>

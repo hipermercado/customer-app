@@ -1,8 +1,9 @@
-import React, {useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
 // import AuthContext from '../context/auth-context'
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PropTypes from 'prop-types';
@@ -14,10 +15,8 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchBar from '../Product/SearchBar';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-
-
+import { getTotalCartCount } from '../API/Cache/cart-cache';
+import { Hub } from 'aws-amplify';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,7 +44,20 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = (props) => {
     const classes = useStyles();
     const history = useHistory();
+    const [cartCount, setCartCount] = useState(0);
     // const authContext = useContext(AuthContext);
+
+    useEffect(() => {
+        let isMounted = true; 
+        Hub.listen('CartCount', (data) => {if (isMounted) getCartCount()});
+        getCartCount();
+        //return Hub.remove('CartCount', (data) => console.log(data));
+        return () => { isMounted = false };
+    }, []);
+
+    const getCartCount = () => {
+        getTotalCartCount().then(count => setCartCount(count)).catch(err => console.log(err));
+    }
 
     function ElevationScroll(props) {
         const { children, window } = props;
@@ -86,6 +98,20 @@ const Navbar = (props) => {
         </React.Fragment>
     }
 
+    const getCartIcon = () => {
+        if (cartCount === 0) {
+            return <IconButton color="default" className={classes.button}>
+                <ShoppingCartOutlinedIcon className={classes.icon}/>
+            </IconButton>
+        } else {
+            return <IconButton color="primary" className={classes.button}>
+                <Badge color="secondary" badgeContent={cartCount}>
+                    <ShoppingCartOutlinedIcon className={classes.icon}/>
+                </Badge>
+            </IconButton>
+        }
+    }
+
     const getDispay = () => {
         if (isUserLoggedIn()) {
             return (
@@ -96,9 +122,7 @@ const Navbar = (props) => {
                                 <Toolbar className={classes.toolbar}>
                                     {props.categoryName ? displayCategoryName() : null}       
                                     {props.showAddress ? <AddressInfo /> : null }
-                                    <IconButton color="default" className={classes.button}>
-                                        <ShoppingCartOutlinedIcon className={classes.icon}/>
-                                    </IconButton>
+                                    {getCartIcon()}
                                 </Toolbar>
                                 {props.showSearch ? 
                                         <SearchBar filterHandler={props.filterHandler} searchText={props.searchText}/> 
