@@ -1,9 +1,10 @@
 const clearAllCache = () => {
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('lastJwtTokenStoredTime');
-    localStorage.removeItem('username');
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('address');
+    let cart;
+    if (localStorage.getItem('cart') !== null) {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    localStorage.clear();
+    localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 export {
