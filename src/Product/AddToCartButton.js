@@ -8,28 +8,41 @@ import { Hub } from '@aws-amplify/core';
 
 const useStyles = makeStyles((theme) => ({
     decrementButton: {
-        padding: '0px 4px',
+        padding: '0px',
         fontSize: '1rem',
+        lineHeight: '1.4',
         fontWeight: '600',
-        border: '1px solid #3f51b5'
+        border: '1px solid #3f51b5',
+        minWidth: '30px'
     },
     incrementButton: {
-        padding: '0px 4px',
+        padding: '0px',
         fontSize: '1rem',
+        lineHeight: '1.4',
         fontWeight: '600',
-        border: '1px solid #3f51b5'
+        border: '1px solid #3f51b5',
+        minWidth: '30px'
     },
     quantityDisplay: {
         fontWeight: '600',
         color: 'black',
+        minWidth: '30px',
+        fontSize: '0.8125rem',
+        lineHeight: '1.4',
+        padding: '0px',
         "&$buttonDisabled": {
             fontWeight: '600',
+            padding: '0px',
             border: '1px solid #3f51b5',
+            fontSize: '0.8125rem',
+            lineHeight: '1.4',
             color: 'black',
+            minWidth: '30px'
         }
     },
     buttonDisabled: {},
     addButton: {
+        padding: '0px',
         fontWeight: '600'
     }
 }));

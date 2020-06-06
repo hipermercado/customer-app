@@ -71,6 +71,7 @@ const Navbar = (props) => {
     const [cartCount, setCartCount] = useState(0);
 
     useEffect(() => {
+        console.log(history.location.pathname);
         let isMounted = true; 
         Hub.listen('CartCount', (data) => {
             if (isMounted) getCartCount()
@@ -84,28 +85,48 @@ const Navbar = (props) => {
         getTotalCartCount().then(count => setCartCount(count)).catch(err => console.log(err));
     }
 
-    
-    const displayCategoryName = () => {
-        return <React.Fragment>
-            <IconButton color="default" 
+    const getLabelDisplay = () => {
+        if (history.location.pathname === '/home' || history.location.pathname === '/') {
+            return <AddressInfo />
+        } else if (history.location.pathname === '/product') {
+            return <React.Fragment>
+                {getBackArrow()}
+                {getLabel(props.categoryName)}
+            </React.Fragment>
+        } else if (history.location.pathname === '/cart') {
+            return <React.Fragment>
+                {getBackArrow()}
+                {getLabel("Checkout")}
+            </React.Fragment>
+        } else if (history.location.pathname === '/orders') {
+            return getLabel("Your Orders");
+        } else if (history.location.pathname === '/account') {
+            return getLabel("Your Account")
+        }
+    }
+
+    const getBackArrow = () => {
+        return <IconButton color="default" 
                 className={classes.back}
                 onClick = {() => history.goBack()}>
                 <ArrowBackIcon className={classes.icon}/>
-            </IconButton>
-            <Typography noWrap={true} variant="h6" style={{width:'100%'}} 
+        </IconButton>
+    }
+
+    const getLabel = (label) => {
+        return <Typography noWrap={true} variant="h6" style={{width:'100%', fontWeight: '450'}} 
                 className={classes.categoryName}>
-                {props.categoryName}
-            </Typography>
-        </React.Fragment>
+            {label}
+        </Typography>
     }
 
     const getCartIcon = () => {
         if (cartCount === 0) {
-            return <IconButton color="default" className={classes.button}>
+            return <IconButton color="default" className={classes.button} onClick={() => history.push('/cart')} >
                 <ShoppingCartOutlinedIcon className={classes.icon}/>
             </IconButton>
         } else {
-            return <IconButton color="primary" className={classes.button}>
+            return <IconButton color="primary" className={classes.button} onClick={() => history.push('/cart')} >
                 <Badge color="secondary" badgeContent={cartCount}>
                     <ShoppingCartOutlinedIcon className={classes.icon}/>
                 </Badge>
@@ -129,8 +150,7 @@ const Navbar = (props) => {
                         <ElevationScroll {...props}>
                             <AppBar position="fixed" color='inherit'>
                                 <Toolbar className={classes.toolbar}>
-                                    {props.categoryName ? displayCategoryName() : null}       
-                                    {props.showAddress ? <AddressInfo /> : null }
+                                    {getLabelDisplay()}
                                     {getCartIcon()}
                                 </Toolbar>
                                 {getSearchbar()}

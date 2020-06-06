@@ -34,7 +34,7 @@ const Home = (props) => {
     return (
        isAddressSet ? 
             <React.Fragment>
-                <Navbar showAddress={true} />
+                <Navbar />
                 <Paper className={classes.home} elevation={0}>
                     <Divider />
                     <Carousel />

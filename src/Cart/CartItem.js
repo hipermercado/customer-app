@@ -3,14 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import AddToCart from './AddToCartButton';
+import AddToCart from '../Product/AddToCartButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
     paper: {
-        padding: '8px 12px',
+        padding: '8px 10px',
         marginBottom: theme.spacing(0.5),
     },
     product: {
@@ -20,29 +20,19 @@ const useStyles = makeStyles((theme) => ({
     unit: {
         lineHeight: '1.85',
     },
-    mrp: {
-        textDecoration: 'line-through',
-    }
+    priceDisplay: {
+        textAlign: 'end',
+    },
   }));
 
-const ProductItem = (props) => {
-    const product = props.product;
+const CartItem = (props) => {
+    const cart = props.cartItem;
     const classes = useStyles();
 
     const getPriceDisplay = () => {
         return (
             <Typography variant="subtitle2" color="secondary">
-                &#8377;{product.buyingPrice}
-                {
-                    product.maximumRetailPrice ?
-                        <React.Fragment>
-                            &nbsp;&nbsp;
-                            <Typography variant="caption" color="textSecondary" className={classes.mrp}>
-                                &#8377;{product.maximumRetailPrice}
-                            </Typography>
-                        </React.Fragment>
-                    : null
-                }
+                &#8377;{cart.buyingPrice}
             </Typography>
         );
     }
@@ -51,20 +41,20 @@ const ProductItem = (props) => {
         <div className={classes.root}>
             <Paper className={classes.paper}>
                 <Grid container spacing={1} >
-                    <Grid item xs={12} container>
-                        <Grid item xs container direction="column" spacing={2}>
-                            <Grid item xs>
+                    <Grid item xs={12} container spacing={1}>
+                        <Grid item xs container direction="column">
                                 <Typography variant="body2" color="textPrimary" className={classes.product}>
-                                    {product.productBrand ? product.productBrand + ' ': ''}{product.productName}
+                                    {cart.productBrand ? cart.productBrand + ' ': ''}{cart.productName}
                                 </Typography>
                                 <Typography variant="caption" color="textSecondary" className={classes.unit}>
-                                    {product.perProductUnit}
+                                    {cart.perProductUnit}
                                 </Typography>
-                                {getPriceDisplay()}
-                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <AddToCart product={product} />
+                        <Grid item >
+                            <AddToCart product={cart} />
+                        </Grid>
+                        <Grid item xs={2} className={classes.priceDisplay}>
+                            {getPriceDisplay()}
                         </Grid>
                     </Grid>
                 </Grid>
@@ -73,4 +63,4 @@ const ProductItem = (props) => {
     );
 }
 
-export default ProductItem;
+export default CartItem;

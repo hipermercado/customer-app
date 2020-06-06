@@ -29,19 +29,27 @@ const clearCart = async () => {
 
 const addToCart = async (productId, categoryId, quantity) => {
     let cartData = await getCart();
-    cartData = cartData.filter(cart => 
-        cart.productId !== productId
-    );
+    console.log(quantity);
     if (quantity > 0) {
-        cartData.push({
-            userId: getUserName(),
-            productId: productId,
-            categoryId: categoryId,
-            quantity: quantity
-        });
+        const index = cartData.findIndex(cart => cart.productId === productId);
+        if (index > -1) {
+            cartData[index].quantity = quantity;
+        } else {
+            const userId = await getUserName();
+            cartData.push({
+                userId: userId,
+                productId: productId,
+                categoryId: categoryId,
+                quantity: quantity
+            });
+        }
 
         // pre-emptively fetches and stores product in local storage
         getProduct(categoryId, productId);
+    } else {
+        cartData = cartData.filter(cart => 
+            cart.productId !== productId
+        );
     }
     localStorage.setItem(dataKey,JSON.stringify(cartData));
 }

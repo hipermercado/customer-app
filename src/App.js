@@ -15,6 +15,7 @@ import Address from './Address/Address';
 import Product from './Product/Product';
 import Orders from './Orders/Orders';
 import Account from './Account/Account';
+import Cart from './Cart/Cart';
 
 Amplify.configure({
   Auth: awsAuthConfig,
@@ -86,6 +87,7 @@ const App = () => {
                 <PrivateRoute exact path='/product' component={Product} /> 
                 <PrivateRoute exact path='/orders' component={Orders} /> 
                 <PrivateRoute exact path='/account' component={Account} /> 
+                <PrivateRoute exact path='/cart' component={Cart} /> 
                 <Route exact path='/login' render = 
                   {(props) => <PhoneNumber {...props} />} />
                 <Route exact path='/otp' render = 
