@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-// import AuthContext from '../context/auth-context'
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -41,15 +40,41 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+function ElevationScroll(props) {
+    const { children, window } = props;
+    // Note that you normally won't need to set the window ref as useScrollTrigger
+    // will default to window.
+    // This is only being set here because the demo is in an iframe.
+    const trigger = useScrollTrigger({
+        disableHysteresis: true,
+        threshold: 0,
+        target: window ? window() : undefined,
+    });
+    
+    return React.cloneElement(children, {
+        elevation: trigger ? 4 : 0,
+    });
+}
+
+ElevationScroll.propTypes = {
+    children: PropTypes.element.isRequired,
+    /**
+     * Injected by the documentation to work in an iframe.
+     * You won't need it on your project.
+     */
+    window: PropTypes.func,
+};
+
 const Navbar = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const [cartCount, setCartCount] = useState(0);
-    // const authContext = useContext(AuthContext);
 
     useEffect(() => {
         let isMounted = true; 
-        Hub.listen('CartCount', (data) => {if (isMounted) getCartCount()});
+        Hub.listen('CartCount', (data) => {
+            if (isMounted) getCartCount()
+        });
         getCartCount();
         //return Hub.remove('CartCount', (data) => console.log(data));
         return () => { isMounted = false };
@@ -59,31 +84,7 @@ const Navbar = (props) => {
         getTotalCartCount().then(count => setCartCount(count)).catch(err => console.log(err));
     }
 
-    function ElevationScroll(props) {
-        const { children, window } = props;
-        // Note that you normally won't need to set the window ref as useScrollTrigger
-        // will default to window.
-        // This is only being set here because the demo is in an iframe.
-        const trigger = useScrollTrigger({
-            disableHysteresis: true,
-            threshold: 0,
-            target: window ? window() : undefined,
-        });
-        
-        return React.cloneElement(children, {
-            elevation: trigger ? 4 : 0,
-        });
-    }
-
-    ElevationScroll.propTypes = {
-        children: PropTypes.element.isRequired,
-        /**
-         * Injected by the documentation to work in an iframe.
-         * You won't need it on your project.
-         */
-        window: PropTypes.func,
-    };
-
+    
     const displayCategoryName = () => {
         return <React.Fragment>
             <IconButton color="default" 
@@ -112,6 +113,14 @@ const Navbar = (props) => {
         }
     }
 
+    const getSearchbar = () => {
+        if (props.showSearch) {
+            return (
+                <SearchBar id={'search'} filterHandler={props.filterHandler} searchText={props.searchText} /> 
+            )
+        }
+    }
+
     const getDispay = () => {
         if (isUserLoggedIn()) {
             return (
@@ -124,9 +133,7 @@ const Navbar = (props) => {
                                     {props.showAddress ? <AddressInfo /> : null }
                                     {getCartIcon()}
                                 </Toolbar>
-                                {props.showSearch ? 
-                                        <SearchBar filterHandler={props.filterHandler} searchText={props.searchText}/> 
-                                : null}
+                                {getSearchbar()}
                             </AppBar>
                         </ElevationScroll>
                         <Toolbar />

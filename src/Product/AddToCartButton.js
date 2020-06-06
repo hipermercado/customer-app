@@ -43,7 +43,6 @@ const useDidMountEffect = (func, deps) => {
     }, deps);
 }
 
-
 const AddToCart = (props) => {
     const product = props.product;
     const [count, setCount] = useState(0);

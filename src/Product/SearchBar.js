@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
         width: '95%',
         border: '2px solid rgba(0, 0, 0, 0.12)',
         borderRadius: '6px',
+        marginBottom: '8px'
     },
     input: {
         marginLeft: theme.spacing(1),
@@ -30,16 +31,18 @@ const SearchBar = (props) => {
     const classes = useStyles();
 
     return (
-        <Container className={classes.root}>
-            <IconButton className={classes.iconButton} aria-label="search" disableRipple={true}>
+        <Container key={'search1'} className={classes.root}>
+            <IconButton key={'search2'} className={classes.iconButton} aria-label="search" disableRipple={true}>
                 <SearchIcon />
             </IconButton>
             <InputBase
+                key={'search3'}
                 className={classes.input}
                 placeholder="Search for product"
                 value={props.searchText}
-                autoFocus={true}
-                onChange={(event) => props.filterHandler(event)}
+                onChange={(event) => {
+                    props.filterHandler(event);
+                }}
             />
         </Container>
     );

@@ -2,34 +2,8 @@ import React, { useEffect, useState } from 'react';
 import queryString from 'query-string'
 import { getProductForCategory, getProduct } from '../API/Cache/product-cache';
 import { Divider } from '@material-ui/core';
-import SearchBar from './SearchBar';
 import Navbar from '../Navbar/Navbar';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import ProductItem from './ProductItem';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: '8px 12px',
-        marginBottom: theme.spacing(0.5),
-    },
-    product: {
-        fontWeight: '450',
-        lineHeight: '1.2',
-    },
-    priceBlock: {
-
-    },
-    mrp: {
-        textDecoration: 'line-through',
-    }
-  }));
 
 const Product = (props) => {
     const categoryId = queryString.parse(props.location.search).categoryId;
@@ -38,7 +12,6 @@ const Product = (props) => {
     const [allProducts, setAllProducts] = useState([]);
     const [productTermsMap, setProductTemsMap] = useState({});
     const [searchValue, setSearchValue] = useState('');
-    const classes = useStyles();
 
     useEffect(() => {
         getProductForCategory(categoryId).then((data) => {
