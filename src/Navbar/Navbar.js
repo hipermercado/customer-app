@@ -121,16 +121,18 @@ const Navbar = (props) => {
     }
 
     const getCartIcon = () => {
-        if (cartCount === 0) {
-            return <IconButton color="default" className={classes.button} onClick={() => history.push('/cart')} >
-                <ShoppingCartOutlinedIcon className={classes.icon}/>
-            </IconButton>
-        } else {
-            return <IconButton color="primary" className={classes.button} onClick={() => history.push('/cart')} >
-                <Badge color="secondary" badgeContent={cartCount}>
+        if (history.location.pathname !== '/cart') {
+            if (cartCount === 0) {
+                return <IconButton color="default" className={classes.button} onClick={() => history.push('/cart')} >
                     <ShoppingCartOutlinedIcon className={classes.icon}/>
-                </Badge>
-            </IconButton>
+                </IconButton>
+            } else {
+                return <IconButton color="primary" className={classes.button} onClick={() => history.push('/cart')} >
+                    <Badge color="secondary" badgeContent={cartCount}>
+                        <ShoppingCartOutlinedIcon className={classes.icon}/>
+                    </Badge>
+                </IconButton>
+            }
         }
     }
 

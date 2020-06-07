@@ -7,10 +7,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography'
-import Amplify, { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import isUserLoggedIn from './check-auth';
 import Alert from '@material-ui/lab/Alert';
-// import AuthContext from '../context/auth-context';
 
 const useStyles = makeStyles((theme) => ({
     paper: {

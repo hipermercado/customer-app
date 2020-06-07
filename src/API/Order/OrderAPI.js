@@ -7,10 +7,11 @@ class OrderAPI {
         
     }
 
-    createOrder = async (userId, products, totalQuantity, totalPrice) => {
+    createOrder = async (products, address, deliveryFee) => {
+        console.log(products);
         clearCart();
     }
 }
 
-const productApi = new ProductAPI();
-export default productApi;
+const orderApi = new OrderAPI();
+export default orderApi;
