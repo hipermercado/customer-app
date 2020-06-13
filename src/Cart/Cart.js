@@ -16,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Slide from '@material-ui/core/Slide';
 import StorefrontIcon from '@material-ui/icons/Storefront';
+import { getAllCategories } from '../API/Cache/category-cache';
 
 const useStyles = makeStyles((theme) => ({
     bottomSheet: {
@@ -169,6 +170,9 @@ const Cart = (props) => {
         orderApi.createOrder(cart, address, deliveryFee).then(data => {
             handleClickOpen();
         }).catch(err => console.log(err));
+
+        // pre-emptively fetch categories after placing order
+        getAllCategories();
     }
 
     useEffect(() => {
@@ -226,7 +230,7 @@ const Cart = (props) => {
     const getAddressBar = () => {
         return <Paper className={classes.paper} >
             <Grid container direction="row">
-                <Grid item direction="column" xs={9}>
+                <Grid item xs={9}>
                     <Grid item style={{lineHeight: '1.25'}}>
                         <Typography variant="caption" color="textSecondary" className={classes.caption}>
                             Deliver to:

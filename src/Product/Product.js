@@ -43,7 +43,7 @@ const Product = (props) => {
     }
 
     const getProducts = () => {
-        return filteredProducts.map(product => <ProductItem product={product} />);
+        return filteredProducts.map(product => <ProductItem product={product} key={product.productId}/>);
     }
 
     const searchFilterHandler = (event) => {

@@ -48,7 +48,21 @@ const getProduct = async (categoryId, productId) => {
     return JSON.parse(localStorage.getItem(dataKey));
 }
 
+const clearProductCache = () => {
+    let arr = []; 
+    for (let i = 0; i < localStorage.length; i++){
+        if (localStorage.key(i).substring(0,7) == 'product') {
+            arr.push(localStorage.key(i));
+        }
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        localStorage.removeItem(arr[i]);
+    }
+}
+
 export {
     getProductForCategory,
-    getProduct
+    getProduct,
+    clearProductCache
 };

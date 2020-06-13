@@ -30,8 +30,13 @@ const updateAddressForCurrentUser = async (data) => {
     return res;
 }
 
+const clearAddressCache = () => {
+    localStorage.removeItem('address');
+}
+
 export {
     getAddressForCurrentUser,
     updateAddressForCurrentUser,
-    addAddressForCurrentUser
+    addAddressForCurrentUser,
+    clearAddressCache
 };

@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import { Auth } from 'aws-amplify';
 import isUserLoggedIn from './check-auth';
 import Alert from '@material-ui/lab/Alert';
+import { updateVersion } from '../Version/version';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -84,6 +85,7 @@ const OtpScreen = (props) => {
         if (verifyAttempt < 3) {
             try {
                 const cognitoUser = await Auth.sendCustomChallengeAnswer(user, otp);
+                updateVersion();
                 history.push('/home');
             } catch(error) {
                 console.log(error);

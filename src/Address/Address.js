@@ -41,7 +41,7 @@ const Address = (props) => {
     useEffect(() => {
         getAddressForCurrentUser().then(address => {
             console.log(address);
-            if (address.addressField1 && address.addressField2 && address.pincode) {
+            if (address.name && address.addressField1 && address.addressField2 && address.pincode) {
                 setDisableSubmit(false);
             }
             setPrevAddress(address);
@@ -51,12 +51,24 @@ const Address = (props) => {
 
     const addressChangeHandler = (event) => {
         const newAddress = {...address};
-        if (event.target.name === 'addressField1') {
+        if (event.target.name === 'name') {
+            const newName = event.target.value;
+            newAddress.name = newName;
+            if (newName === '') {
+                setDisableSubmit(true);
+            } else if (newAddress.pincode && 
+                newAddress.pincode.length === 6 
+                && newAddress.addressField1
+                && newAddress.addressField2) {
+                setDisableSubmit(false);
+            }
+        } else if (event.target.name === 'addressField1') {
             const newAddressField1 = event.target.value;
             newAddress.addressField1 = newAddressField1;
             if (newAddressField1 === '') {
                 setDisableSubmit(true);
-            } else if (newAddress.pincode && 
+            } else if (newAddress.name &&
+                newAddress.pincode && 
                 newAddress.pincode.length === 6 
                 && newAddress.addressField2) {
                 setDisableSubmit(false);
@@ -66,7 +78,7 @@ const Address = (props) => {
             newAddress.addressField2 = newAddressField2;
             if (newAddressField2 === '') {
                 setDisableSubmit(true);
-            } else if (newAddress.pincode && newAddress.pincode.length === 6 && newAddress.addressField1) {
+            } else if (newAddress.name && newAddress.pincode && newAddress.pincode.length === 6 && newAddress.addressField1) {
                 setDisableSubmit(false);
             }
         } else if (event.target.name === 'pincode') {
@@ -74,7 +86,7 @@ const Address = (props) => {
             newAddress.pincode = newPincode;
             if (newPincode.length < 6) {
                 setDisableSubmit(true);
-            } else if (newAddress.addressField1 && newAddress.addressField2 && newAddress.pincode && newAddress.pincode.length === 6) {
+            } else if (newAddress.name && newAddress.addressField1 && newAddress.addressField2 && newAddress.pincode && newAddress.pincode.length === 6) {
                 setDisableSubmit(false);
             }
         } else if (event.target.name === 'city') {
@@ -133,6 +145,18 @@ const Address = (props) => {
             }
             <div className={classes.paper}>
                 <TextField
+                        key="Name"
+                        variant="standard"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="name"
+                        label="Name"
+                        autoFocus={true}
+                        value={address.name}
+                        onChange={addressChangeHandler}
+                    />
+                <TextField
                     key="Address Field 1"
                     variant="standard"
                     margin="normal"
@@ -140,7 +164,6 @@ const Address = (props) => {
                     fullWidth
                     name="addressField1"
                     label="House No., Floor, Building"
-                    autoFocus={true}
                     value={address.addressField1}
                     onChange={addressChangeHandler}
                 />
@@ -152,7 +175,6 @@ const Address = (props) => {
                     required
                     name="addressField2"
                     label="Street Address"
-                    autoFocus={true}
                     value={address.addressField2}
                     onChange={addressChangeHandler}
                     // onChange={}
@@ -165,7 +187,6 @@ const Address = (props) => {
                     fullWidth
                     name="pincode"
                     label="Pincode"
-                    autoFocus={true}
                     value={address.pincode}
                     inputProps={{ inputMode: 'numeric', maxLength: 6 }}
                     onChange={addressChangeHandler}
@@ -178,7 +199,6 @@ const Address = (props) => {
                     fullWidth
                     name="city"
                     label="City (Optional)"
-                    autoFocus={true}
                     value={address.city}
                     onChange={addressChangeHandler}
                     // onChange={}
@@ -190,7 +210,6 @@ const Address = (props) => {
                     fullWidth
                     name="landmark"
                     label="Landmark (Optional)"
-                    autoFocus={true}
                     value={address.landmark}
                     onChange={addressChangeHandler}
                     // onChange={}

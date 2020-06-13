@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase'
 import { useHistory } from 'react-router-dom'; 
 import {getAllCategories} from '../API/Cache/category-cache';
+import { getProductForCategory } from '../API/Cache/product-cache';
 
 const useStyles = makeStyles((theme) => ({
     gridItem: {
@@ -29,8 +30,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
         width: '100%',
         height: '100%'
-        // textAlign: 'center',
-        // color: theme.palette.text.secondary,
     },
     categoryName: {
         fontSize: '0.65rem',
@@ -41,81 +40,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// const categories = [
-//     {
-//         categoryId: "groceries",
-//         categoryName: "Groceries & Essentials",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "fruitsVeggies1",
-//         categoryName: "Fruits & Vegetables",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "medicines1",
-//         categoryName: "Medicines",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "groceries2",
-//         categoryName: "Groceries & Essentials",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "fruitsVeggies2",
-//         categoryName: "Fruits & Vegetables",
-//         categoryStatus: "ONVACATION",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "medicines2",
-//         categoryName: "Medicines",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "groceries3",
-//         categoryName: "Groceries & Essentials",
-//         categoryStatus: "ONVACATION",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "fruitsVeggies3",
-//         categoryName: "Fruits & Vegetables",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "medicines3",
-//         categoryName: "Medicines",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "groceries4",
-//         categoryName: "Groceries & Essentials",
-//         categoryStatus: "ONVACATION",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/grocery.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "fruitsVeggies4",
-//         categoryName: "Fruits & Vegetables",
-//         categoryStatus: "LIVE",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/fruitsVegetables.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-//     {
-//         categoryId: "medicines4",
-//         categoryName: "Medicines",
-//         categoryStatus: "ONVACATION",
-//         categoryImage: "https://ik.imagekit.io/dunzo/icons/R4_Icons/Home/apollo_pharmacy2.png?tr=w-120,h-120,cm-pad_resize"
-//     },
-// ];
-
 const CategoryView = () => {
     const classes = useStyles();
     const history = useHistory();
@@ -125,8 +49,15 @@ const CategoryView = () => {
     useEffect(() => {
         getAllCategories().then(categories => {
             setCategories(categories);
+            preFetchProducts(categories);
         }).catch(err => console.log(err));
     }, []);
+
+    const preFetchProducts = async (categories) => {
+        categories.map(category => {
+            getProductForCategory(category.categoryId);
+        });
+    }
 
     const clickHandler = (categoryId, categoryName) => {
         history.push({

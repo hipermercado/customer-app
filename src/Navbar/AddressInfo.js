@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import { getAddressForCurrentUser } from '../API/Cache/address-cache';
 import { Redirect, useHistory } from 'react-router-dom';
+import { getAllCategories } from '../API/Cache/category-cache';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,6 +47,9 @@ const AddressInfo = () => {
             addressDisplay = addressDisplay + ", " + address.pincode;
             setAddress(addressDisplay);
         }).catch((err) => console.log(err));
+
+        // pre-emptively fetch categories for time address or change address in background
+        getAllCategories();
     }, []);
 
     return (

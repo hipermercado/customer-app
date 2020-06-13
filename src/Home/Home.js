@@ -25,7 +25,7 @@ const Home = (props) => {
     useEffect(() => {
         getAddressForCurrentUser().then(address => {
             setAddressSet(true);
-            if (Object.keys(address).length === 0 && address.constructor === Object) {
+            if (!address || (Object.keys(address).length === 0 && address.constructor === Object) ) {
                 history.push('/address');
             }
         })

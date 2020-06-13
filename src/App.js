@@ -16,6 +16,7 @@ import Product from './Product/Product';
 import Orders from './Orders/Orders';
 import Account from './Account/Account';
 import Cart from './Cart/Cart';
+import { updateVersion } from './Version/version';
 
 Amplify.configure({
   Auth: awsAuthConfig,
@@ -30,6 +31,7 @@ const App = () => {
     switch (data.payload.event) {
       case 'signIn':
         logger.error('user signed in'); //[ERROR] My-Logger - user signed in
+        updateVersion();
         saveLoginInLocalStorage();
         setIsLoggedIn(true);
         break;

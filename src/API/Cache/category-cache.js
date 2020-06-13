@@ -23,6 +23,20 @@ const getAllCategories = async () => {
     return JSON.parse(localStorage.getItem(dataKey));
 }
 
+const clearCategoryCache = () => {
+    let arr = []; 
+    for (let i = 0; i < localStorage.length; i++){
+        if (localStorage.key(i).substring(0,10) == 'categories') {
+            arr.push(localStorage.key(i));
+        }
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        localStorage.removeItem(arr[i]);
+    }
+}
+
 export {
-    getAllCategories
+    getAllCategories,
+    clearCategoryCache
 };
