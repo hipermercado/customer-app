@@ -3,7 +3,7 @@ import { clearSeviceCache } from "../API/Cache/clear-cache";
 
 const majorVersion="1";
 const minorVersion="0";
-const patch="0";
+const patch="1";
 const dot="."
 
 const updateVersion = () => {
