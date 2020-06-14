@@ -9,7 +9,9 @@ const clearAllCache = () => {
         cart = JSON.parse(localStorage.getItem('cart'));
     }
     localStorage.clear();
-    localStorage.setItem('cart', JSON.stringify(cart));
+    if (cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
 }
 
 const clearSeviceCache = () => {
