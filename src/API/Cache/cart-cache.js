@@ -12,7 +12,6 @@ const getCart = async () => {
 
 const getCartCountForProduct = async (productId) => {
     if (localStorage.getItem(dataKey) === null || JSON.parse(localStorage.getItem(dataKey)).length === 0) {
-        // TODO: Add getCart API call
         await getCart();
     }
     const cartData = JSON.parse(localStorage.getItem(dataKey));
@@ -23,7 +22,7 @@ const getCartCountForProduct = async (productId) => {
 }
 
 const clearCart = async () => {
-    // TODO: Add delete cart API call
+    // TODO: Add delete entire cart API call
     localStorage.removeItem(dataKey);
 }
 
@@ -31,9 +30,12 @@ const addToCart = async (productId, categoryId, quantity) => {
     let cartData = await getCart();
     console.log(quantity);
     if (quantity > 0) {
-        const index = cartData.findIndex(cart => cart.productId === productId);
+        const index = cartData.findIndex(cart => 
+            cart.productId === productId
+        );
         if (index > -1) {
             cartData[index].quantity = quantity;
+            // TODO: update product in backend via API call
         } else {
             const userId = await getUserName();
             cartData.push({
@@ -42,14 +44,16 @@ const addToCart = async (productId, categoryId, quantity) => {
                 categoryId: categoryId,
                 quantity: quantity
             });
+            // TODO: add product to cart via API call
         }
 
         // pre-emptively fetches and stores product in local storage
         getProduct(categoryId, productId);
     } else {
-        cartData = cartData.filter(cart => 
+        cartData = cartData.filter(cart =>
             cart.productId !== productId
         );
+        // TODO: remove product from cart via delete API call
     }
     localStorage.setItem(dataKey,JSON.stringify(cartData));
 }
@@ -57,9 +61,9 @@ const addToCart = async (productId, categoryId, quantity) => {
 const syncLocalCartToService = async () => {
     const cartData = await getCart();
     return cartData.map(data => {
-        // Add add API call;
+        // TODO: Add batch add API call;
         console.log('syncing cart data to backend....')
-        return true;
+        return data;
     });
 }
 

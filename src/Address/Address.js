@@ -10,18 +10,27 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import serviceablePincodes from './serviceable-pincodes';
 import ErrorAlert from '../Alert/ErrorAlert'
+import { Toolbar, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(0),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     },
-    button: {
-        position: 'absolute',
+    buttonContainer: {
+        flexGrow: 1,
+        position: 'fixed',
         bottom: 0,
         marginBottom: theme.spacing(1),
+        width: '100%',
+        textAlign: 'center',
+    },
+    textInput: {
+        marginTop: theme.spacing(1),
+    },
+    button: {
         width: '90%'
     },
     h6: {
@@ -125,38 +134,24 @@ const Address = (props) => {
             setUnserviceableAlert(true);
         }
     }
-    const getDisplay = () => {
-        return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.header}>
-                <Typography className={classes.h6} variant="h6" component="h1" align="left" color="textPrimary">
-                    Set delivery location
-                </Typography>
-            </div>
-            <Divider variant="fullWidth" />
-            {
-                showUnserviceableAlert ?
-                <ErrorAlert 
-                    message={'Pincode is currently not serviceable'} 
-                    show = {showUnserviceableAlert} 
-                    closeHandler = {setUnserviceableAlert} /> 
-                : null
-            }
-            <div className={classes.paper}>
+
+    const getInputs = () => {
+        return <Container className={classes.paper}>
+            <TextField
+                    className={classes.textInput}
+                    key="Name"
+                    variant="standard"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="name"
+                    label="Name"
+                    autoFocus={true}
+                    value={address.name || ''}
+                    onChange={addressChangeHandler}
+                />
                 <TextField
-                        key="Name"
-                        variant="standard"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="name"
-                        label="Name"
-                        autoFocus={true}
-                        value={address.name}
-                        onChange={addressChangeHandler}
-                    />
-                <TextField
+                    className={classes.textInput}
                     key="Address Field 1"
                     variant="standard"
                     margin="normal"
@@ -164,10 +159,11 @@ const Address = (props) => {
                     fullWidth
                     name="addressField1"
                     label="House No., Floor, Building"
-                    value={address.addressField1}
+                    value={address.addressField1 || ''}
                     onChange={addressChangeHandler}
                 />
                 <TextField
+                    className={classes.textInput}
                     key="Address Field 2"
                     variant="standard"
                     margin="normal"
@@ -175,11 +171,12 @@ const Address = (props) => {
                     required
                     name="addressField2"
                     label="Street Address"
-                    value={address.addressField2}
+                    value={address.addressField2 || ''}
                     onChange={addressChangeHandler}
                     // onChange={}
                 />
                 <TextField
+                    className={classes.textInput}
                     key="Pincode"
                     variant="standard"
                     margin="normal"
@@ -187,45 +184,78 @@ const Address = (props) => {
                     fullWidth
                     name="pincode"
                     label="Pincode"
-                    value={address.pincode}
+                    value={address.pincode || ''}
                     inputProps={{ inputMode: 'numeric', maxLength: 6 }}
                     onChange={addressChangeHandler}
                     // onChange={}
                 />
                 <TextField
+                    className={classes.textInput}
                     key="City"
                     variant="standard"
                     margin="normal"
                     fullWidth
                     name="city"
                     label="City (Optional)"
-                    value={address.city}
+                    value={address.city || ''}
                     onChange={addressChangeHandler}
                     // onChange={}
                 />
                 <TextField
+                    className={classes.textInput}
                     key="Landmark"
                     variant="standard"
                     margin="normal"
                     fullWidth
                     name="landmark"
                     label="Landmark (Optional)"
-                    value={address.landmark}
+                    value={address.landmark || ''}
                     onChange={addressChangeHandler}
                     // onChange={}
                 />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    // onClick={verifyHandler}
-                    disabled={disableSubmit}
-                    onClick={submitHandler}
-                >
-                    Save Address
-                </Button>
-            </div>
-        </Container>
+                <Toolbar />
+            </Container>
+    }
+
+    const getHeader = () => {
+        return <React.Fragment>
+            <Container>
+                <Typography className={classes.h6} variant="h6" component="h1" align="left" color="textPrimary">
+                    Set delivery location
+                </Typography>
+            </Container>
+            <Divider variant="fullWidth" />
+        </React.Fragment>
+    }
+
+    const getUnserviceableAlert = () => {
+        if (showUnserviceableAlert) {
+            return <ErrorAlert 
+                message={'Pincode is currently not serviceable'} 
+                show = {showUnserviceableAlert} 
+                closeHandler = {setUnserviceableAlert} /> 
+        }
+    }
+
+    const getDisplay = () => {
+        return (
+            <React.Fragment>
+                <CssBaseline />
+                {getHeader()}
+                {getUnserviceableAlert()}
+                {getInputs()}
+                <Paper elevation={0} className={classes.buttonContainer} >
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        disabled={disableSubmit}
+                        onClick={submitHandler}
+                    >
+                        Save Address
+                    </Button>
+                </Paper >
+            </React.Fragment>            
         );
     }
 
