@@ -14,7 +14,7 @@ const getAddressForCurrentUser = async () => {
 }
 
 // add adrress only if not only present
-// currently we are supporting only one address per use
+// currently we are supporting only one address per user
 const addAddressForCurrentUser = async (data) => {
     const res = await addressApi.add(data);
     localStorage.removeItem('address');

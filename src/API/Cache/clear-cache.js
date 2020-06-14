@@ -4,8 +4,8 @@ import { clearCart, getCart } from "./cart-cache";
 import { clearCategoryCache } from "./category-cache";
 
 const clearAllCache = () => {
-    localStorage.clear();
     getCart().then(cart => {
+        localStorage.clear();
         localStorage.setItem('cart', JSON.stringify(cart));
     }).catch(err => console.log(err));
 }
