@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import serviceablePincodes from './serviceable-pincodes';
 import ErrorAlert from '../Alert/ErrorAlert'
 import { Toolbar, Paper } from '@material-ui/core';
+import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -239,7 +240,7 @@ const Address = (props) => {
 
     const getDisplay = () => {
         return (
-            <React.Fragment>
+            <ServiceWorkerWrapper>
                 <CssBaseline />
                 {getHeader()}
                 {getUnserviceableAlert()}
@@ -255,7 +256,7 @@ const Address = (props) => {
                         Save Address
                     </Button>
                 </Paper >
-            </React.Fragment>            
+            </ServiceWorkerWrapper>            
         );
     }
 

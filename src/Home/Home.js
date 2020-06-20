@@ -6,9 +6,9 @@ import Divider from '@material-ui/core/Divider';
 import CategoryView from './CategoryView'
 import { useHistory } from 'react-router-dom'; 
 import { getAddressForCurrentUser } from '../API/Cache/address-cache';
-import withNav from '../Navbar/WithNav';
 import Navbar from '../Navbar/Navbar';
 import BottomNav from '../Navbar/BottomNav';
+import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -33,7 +33,7 @@ const Home = (props) => {
 
     return (
        isAddressSet ? 
-            <React.Fragment>
+            <ServiceWorkerWrapper>
                 <Navbar />
                 <Paper className={classes.home} elevation={0}>
                     <Divider />
@@ -42,7 +42,7 @@ const Home = (props) => {
                     <CategoryView />
                 </Paper>
                 <BottomNav />
-            </React.Fragment>
+            </ServiceWorkerWrapper>
         : null 
     );
 }

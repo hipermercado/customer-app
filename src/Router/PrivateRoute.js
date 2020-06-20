@@ -7,7 +7,6 @@ import BottomNav from '../Navbar/BottomNav';
 import { checkVersion } from "../Version/version";
 import { Auth } from "aws-amplify";
 
-
 const PrivateRoute = ({ component: Component, ...rest }) => {    
     return (
         <Route {...rest} render={(props) => {

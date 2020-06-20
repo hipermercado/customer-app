@@ -11,14 +11,15 @@ const getAllCategories = async () => {
 
     if (localStorage.getItem(dataKey) === null || localStorage.getItem(dataKey).length === 0 ||
             JSON.parse(localStorage.getItem(dataKey)).length === 0) {
+        let categories = [];
         try {
-            const categories = await categoryAPI.get('all');
+            categories = await categoryAPI.get('all');
             console.log(categories);
-            localStorage.setItem(timeKey, new Date().getTime());
-            localStorage.setItem(dataKey, JSON.stringify(categories));
         } catch (error) {
             console.log(error);
         }
+        localStorage.setItem(timeKey, new Date().getTime());
+        localStorage.setItem(dataKey, JSON.stringify(categories));
     }
     return JSON.parse(localStorage.getItem(dataKey));
 }

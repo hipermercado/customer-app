@@ -13,6 +13,7 @@ import { Auth } from 'aws-amplify';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import ContactSupportOutlinedIcon from '@material-ui/icons/ContactSupportOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
 
 const useStyles = makeStyles((theme) => ({
     name: {
@@ -95,11 +96,11 @@ const Account = () => {
         </Paper>
     }
 
-    return  <React.Fragment>
+    return  <ServiceWorkerWrapper>
         <Navbar />
         {getDisplay()}
         <BottomNav />
-    </React.Fragment>
+    </ServiceWorkerWrapper>
 };
 
 export default Account;

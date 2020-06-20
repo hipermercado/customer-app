@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Amplify, { Auth } from 'aws-amplify';
 import isUserLoggedIn from './check-auth';
+import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
 // import AuthContext from '../context/auth-context';
 
 const useStyles = makeStyles((theme) => ({
@@ -76,6 +77,7 @@ const PhoneNumber = (props) => {
             return <Redirect to='/' />
         } else {
             return (
+                <ServiceWorkerWrapper>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <div className={classes.paper}>
@@ -101,6 +103,7 @@ const PhoneNumber = (props) => {
                         </Button>
                     </div>
                 </Container>
+                </ServiceWorkerWrapper>
             );
         }
     }

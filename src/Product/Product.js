@@ -4,6 +4,7 @@ import { getProductForCategory, getProduct } from '../API/Cache/product-cache';
 import { Divider } from '@material-ui/core';
 import Navbar from '../Navbar/Navbar';
 import ProductItem from './ProductItem';
+import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
 
 const Product = (props) => {
     const categoryId = queryString.parse(props.location.search).categoryId;
@@ -78,14 +79,14 @@ const Product = (props) => {
     }
 
     return (
-        <React.Fragment>
+        <ServiceWorkerWrapper>
             <Navbar categoryName={categoryName} 
                 showSearch={true} 
                 filterHandler={searchFilterHandler}
                 searchText={searchValue} />
             <Divider />
             {getProducts()}
-        </React.Fragment>
+        </ServiceWorkerWrapper>
         
     );
 }

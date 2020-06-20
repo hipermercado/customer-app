@@ -17,6 +17,7 @@ import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Slide from '@material-ui/core/Slide';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import { getAllCategories } from '../API/Cache/category-cache';
+import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
 
 const useStyles = makeStyles((theme) => ({
     bottomSheet: {
@@ -348,13 +349,13 @@ const Cart = (props) => {
     }
 
     return (
-        <React.Fragment>
+        <ServiceWorkerWrapper>
             <Navbar />
             <Divider />
             {getProducts()}
             {getBottomSheet()}
             {dialog()}
-        </React.Fragment>
+        </ServiceWorkerWrapper>
         
     );
 }

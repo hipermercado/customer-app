@@ -1,12 +1,13 @@
 import React from 'react';
 import BottomNav from '../Navbar/BottomNav';
 import Navbar from '../Navbar/Navbar';
+import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
 
 const Orders = () => {
-    return <React.Fragment>
+    return <ServiceWorkerWrapper>
         <Navbar />
         <BottomNav />
-    </React.Fragment>
+    </ServiceWorkerWrapper>
     
 };
 
