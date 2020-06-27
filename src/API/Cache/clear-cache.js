@@ -2,6 +2,7 @@ import { clearAddressCache } from "./address-cache";
 import { clearProductCache } from "./product-cache";
 import { clearCart, getCart } from "./cart-cache";
 import { clearCategoryCache } from "./category-cache";
+import { clearOrdersCache } from "./orders-cache";
 
 const clearAllCache = () => {
     getCart().then(cart => {
@@ -11,10 +12,10 @@ const clearAllCache = () => {
 }
 
 const clearSeviceCache = () => {
-    clearAddressCache();
     clearProductCache();
     clearCategoryCache();
     clearAddressCache();
+    clearOrdersCache();
 }
 
 export {

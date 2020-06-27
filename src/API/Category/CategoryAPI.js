@@ -28,7 +28,11 @@ class CategoryAPI {
         
         const response = await API.get(this.apiName, path, myInit);
         console.log(response.data.data);
-        return response.data.data;
+        let categories = response.data.data;
+        if (categories && Object.keys(categories).length === 0 && categories.constructor === Object) {
+            categories = [];
+        }
+        return categories;
     }
 }
 

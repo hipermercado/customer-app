@@ -29,6 +29,10 @@ class ProductAPI {
         
         const response = await API.get(this.apiName, path, myInit);
         console.log(response.data.data);
+        let products = response.data.data;
+        if (products && Object.keys(products).length === 0 && products.constructor === Object) {
+            products = [];
+        }
         return response.data.data;
     }
 }

@@ -30,11 +30,16 @@ const UpdateAlert = (props) => {
                 const registration = await navigator.serviceWorker.ready;
                 console.log(registration);
                 if (registration) {
-                    const updatedServiceWorker = await registration.update();
-                    console.log(updatedServiceWorker);
-                    if (updatedServiceWorker.waiting) {
-                        setWaitingServiceWorker(updatedServiceWorker.waiting);
+                    if (registration.waiting) {
+                        setWaitingServiceWorker(registration.waiting);
                         setUpdateAvailable(true);
+                    } else {
+                        const updatedServiceWorker = await registration.update();
+                        console.log(updatedServiceWorker);
+                        if (updatedServiceWorker.waiting) {
+                            setWaitingServiceWorker(updatedServiceWorker.waiting);
+                            setUpdateAvailable(true);
+                        }
                     }
                 }
             }

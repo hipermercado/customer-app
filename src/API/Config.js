@@ -12,6 +12,10 @@ const awsAPIConfig = {
             name: "CategoryAPI",
             endpoint: "https://3x8f0id1ck.execute-api.ap-south-1.amazonaws.com"
         },
+        {
+            name: "OrdersAPI",
+            endpoint: "https://9fxtdvz5uh.execute-api.ap-south-1.amazonaws.com"
+        }
     ]
 }
 

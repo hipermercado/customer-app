@@ -18,6 +18,7 @@ import Slide from '@material-ui/core/Slide';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import { getAllCategories } from '../API/Cache/category-cache';
 import ServiceWorkerWrapper from '../ServiceWorker/ServiceWorkerWrapper';
+import { clearOrdersCache, getOrdersForPastWeek } from '../API/Cache/orders-cache';
 
 const useStyles = makeStyles((theme) => ({
     bottomSheet: {
@@ -168,12 +169,14 @@ const Cart = (props) => {
     }
 
     const placeOrder = () =>{
-        orderApi.createOrder(cart, address, deliveryFee).then(data => {
+        orderApi.createOrder(cart, address, deliveryFee.toString()).then(data => {
             handleClickOpen();
+            // pre-emptively clean and fetch orders after placing order
+            clearOrdersCache();
+            getOrdersForPastWeek();
+            // pre-emptively fetch categories after placing order
+            getAllCategories();
         }).catch(err => console.log(err));
-
-        // pre-emptively fetch categories after placing order
-        getAllCategories();
     }
 
     useEffect(() => {
