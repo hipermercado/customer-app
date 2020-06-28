@@ -4,7 +4,7 @@ const dataKey = 'orders';
 const timeKey = 'orders-time';
 
 const getOrdersForPastWeek = async () => {
-    const TTL = 1000 * 60 * 5; // in milliseconds
+    const TTL = 1000 * 60 * 10; // in milliseconds
 
     if (localStorage.getItem(timeKey) === null || new Date().getTime() - localStorage.getItem(timeKey) > TTL) {
         localStorage.removeItem(dataKey);
