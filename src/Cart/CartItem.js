@@ -30,9 +30,10 @@ const CartItem = (props) => {
     const classes = useStyles();
 
     const getPriceDisplay = () => {
+        const calculatedPrice = Number(cart.quantity) * Number(cart.buyingPrice)
         return (
             <Typography variant="subtitle2" color="secondary">
-                &#8377;{cart.buyingPrice}
+                &#8377;{calculatedPrice}
             </Typography>
         );
     }
