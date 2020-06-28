@@ -9,6 +9,7 @@ import { clearAllCache } from './API/Cache/clear-cache';
 import { updateVersion } from './Version/version';
 import { LinearProgress } from '@material-ui/core';
 import UpdateAlert from './Alert/UpdateAlert';
+import OrderSummary from './Orders/OrderSummay';
 
 Amplify.configure({
   Auth: awsAuthConfig,
@@ -91,6 +92,7 @@ const App = () => {
                   <PrivateRoute exact path='/address' component={Address} /> 
                   <PrivateRoute exact path='/product' component={Product} /> 
                   <PrivateRoute exact path='/orders' component={Orders} /> 
+                  <PrivateRoute exact path='/order' component={OrderSummary} /> 
                   <PrivateRoute exact path='/account' component={Account} /> 
                   <PrivateRoute exact path='/cart' component={Cart} /> 
                   <Route exact path='/login' render = 

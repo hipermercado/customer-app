@@ -7,6 +7,7 @@ import OrdersItem from '../Orders/OrdersItem';
 import { Typography, Paper, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     orderSubnavHeadingBground : {
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const classes = useStyles();
+    const history = useHistory();
 
     useEffect(() => {
         getOrdersForPastWeek().then(orders => {
@@ -29,10 +31,17 @@ const Orders = () => {
         }).catch(err => console.log(err));
     }, []);
 
+    const goToOrderSummary = (order) => {
+        history.push({
+            pathname: '/order',
+            search: '?orderId=' + order.orderId,
+            state: { order: order }
+        })
+    };
 
     const getOrders = () => {
         return orders.map(order => {
-            return <OrdersItem key={order.orderId} order={order}/>
+            return <OrdersItem key={order.orderId} order={order} clickHandler={() => goToOrderSummary(order)} />
         })
     }
 

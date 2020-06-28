@@ -16,6 +16,12 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchBar from '../Product/SearchBar';
 import { getTotalCartCount } from '../API/Cache/cart-cache';
 import { Hub } from 'aws-amplify';
+import FiberManualRecordOutlinedIcon from '@material-ui/icons/FiberManualRecordOutlined';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
+import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
+import { green, red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,7 +43,36 @@ const useStyles = makeStyles((theme) => ({
     },
     categoryName: {
         paddingLeft: theme.spacing(0.5),
-    }
+    },
+    placedStatusIcon : {
+        fontSize: '1.25rem',
+        color: theme.palette.secondary.main
+    },
+    confirmStatusIcon : {
+        fontSize: '1.25rem',
+        color: theme.palette.primary.main
+    },
+    packedStatusIcon : {
+        fontSize: '1.25rem',
+        color: theme.palette.secondary.main
+    },
+    shipStatusIcon : {
+        fontSize: '1.25rem',
+        color: theme.palette.primary.main
+    },
+    deliveredtatusIcon : {
+        fontSize: '1.25rem',
+        color: green[500]
+    },
+    canceledStatusIcon : {
+        fontSize: '1.25rem',
+        color: red[500]
+    },
+    orderDate : {
+        fontSize: '1.1rem',
+        width: '100%',
+        fontWeight: 450
+    },
 }));
 
 function ElevationScroll(props) {
@@ -101,7 +136,12 @@ const Navbar = (props) => {
         } else if (history.location.pathname === '/orders') {
             return getLabel("Your Orders");
         } else if (history.location.pathname === '/account') {
-            return getLabel("Your Account")
+            return getLabel("Your Account");
+        } else if (history.location.pathname === '/order') {
+            return <React.Fragment>
+                {getBackArrow()}
+                {getDate(props.orderId)}
+            </React.Fragment>
         }
     }
 
@@ -136,6 +176,48 @@ const Navbar = (props) => {
         }
     }
 
+    const getDate = (orderId) => {
+        const epoch = Number(orderId);
+        const dispalyDate = new Date(epoch).toLocaleString('default', 
+            {  month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle:'h12' });
+        return <Typography variant="body2" color="textPrimary" className={classes.orderDate}>
+                {dispalyDate}
+            </Typography>;
+    }
+
+    const getStatusAvatar = (orderStatus) => {
+        if (orderStatus === 'PLACED') {
+            return <FiberManualRecordOutlinedIcon className={classes.placedStatusIcon} />;
+        } else if (orderStatus === 'CONFIRMED') {
+            return <FiberManualRecordIcon className={classes.confirmStatusIcon} />;
+        } else if (orderStatus === 'PACKED') {
+            return <LocalShippingIcon className={classes.packedStatusIcon} />;
+        } else if (orderStatus === 'SHIPPED') {
+            return <LocalShippingIcon className={classes.shipStatusIcon} />;
+        } else if (orderStatus === 'CANCELLED') {
+            return <CancelRoundedIcon className={classes.canceledStatusIcon} />;
+        } else if (orderStatus === 'DELIVERED') {
+            return <CheckCircleRoundedIcon className={classes.deliveredtatusIcon} />;
+        } 
+    }
+
+    const getOrderStatus = (orderStatus) => {
+        return <div style={{ display: 'flex', alignItems: 'center', marginRight: '8px' }}>
+            {getStatusAvatar(orderStatus)}
+            <Typography variant="body2" color="textPrimary" style={{ fontWeight: '450' }}>
+                &nbsp;{orderStatus}
+            </Typography>
+        </div>;
+    }
+
+    const rightSideDisplay = () => {
+        if (history.location.pathname === '/order') {
+            return getOrderStatus(props.orderStatus);
+        } else {
+            return getCartIcon();
+        }
+    }
+
     const getSearchbar = () => {
         if (props.showSearch) {
             return (
@@ -153,7 +235,7 @@ const Navbar = (props) => {
                             <AppBar position="fixed" color='inherit'>
                                 <Toolbar className={classes.toolbar}>
                                     {getLabelDisplay()}
-                                    {getCartIcon()}
+                                    {rightSideDisplay()}
                                 </Toolbar>
                                 {getSearchbar()}
                             </AppBar>

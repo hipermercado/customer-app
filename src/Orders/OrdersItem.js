@@ -128,7 +128,7 @@ const OrdersItem = (props) => {
     }
 
     const getDisplay = () => {
-        return <div className={classes.root}>
+        return <div className={classes.root} onClick={props.clickHandler}>
             <Paper className={classes.paper}>
                 <Grid container spacing={1} >
                     <Grid item xs={11} container spacing={1}>
