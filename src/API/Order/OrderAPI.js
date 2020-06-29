@@ -24,7 +24,7 @@ class OrderAPI {
             }
         }
 
-        const path = '/master/get/';
+        const path = 'get/';
         let jwtToken;
         try {
             jwtToken = await getJwtToken();
@@ -57,7 +57,7 @@ class OrderAPI {
         if (userId === undefined) {
             Auth.signOut();
         }
-        const path = '/master/add'; 
+        const path = 'add'; 
         let jwtToken;
         try {
             jwtToken = await getJwtToken();

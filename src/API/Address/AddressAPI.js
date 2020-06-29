@@ -13,7 +13,7 @@ class AddressAPI {
             'userId':  userId
         }
     
-        const path = '/master/get/';
+        const path = '/get/';
         let jwtToken;
         try {
             jwtToken = await getJwtToken();
@@ -44,7 +44,7 @@ class AddressAPI {
             Auth.signOut();
         }
         body.userId = userId;
-        const path = '/master/add'; 
+        const path = '/add'; 
         let jwtToken;
         try {
             jwtToken = await getJwtToken();

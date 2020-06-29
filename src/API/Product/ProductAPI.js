@@ -11,7 +11,7 @@ class ProductAPI {
         if (productId !== undefined) {
             queryStringParameters['productId'] = productId;
         }
-        const path = '/master/get/customer/' + type;
+        const path = '/get/customer/' + type;
         let jwtToken;
         try {
             jwtToken = await getJwtToken();

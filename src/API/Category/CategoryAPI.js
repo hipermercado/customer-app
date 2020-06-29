@@ -10,7 +10,7 @@ class CategoryAPI {
                 'categoryId': categoryId 
             }
         }
-        const path = '/master/get/customer/' + type;
+        const path = '/get/customer/' + type;
         let jwtToken;
         try {
             jwtToken = await getJwtToken();

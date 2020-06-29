@@ -25,21 +25,39 @@ const useStyles = makeStyles((theme) => ({
     quantity: {
         fontWeight: '450',
         lineHeight: '1.2',
-        color: theme.palette.primary.main
     },
   }));
+
 
 const OrderSummaryItem = (props) => {
     const cart = props.cartItem;
     const classes = useStyles();
 
+    const colorWithStatus = (color) => {
+        return cart.productStatus === 'CUSTOMER_PLACED' ? color : "textSecondary";
+    }
+
     const getPriceDisplay = () => {
         const calculatedPrice = Number(cart.quantity) * Number(cart.buyingPrice)
         return (
-            <Typography variant="subtitle2" color="secondary">
+            <Typography variant="subtitle2" color={colorWithStatus("secondary")}>
                 &#8377;{calculatedPrice}
             </Typography>
         );
+    }
+
+    const getProductStatus = () => {
+        let productStatus = "";
+        if (cart.productStatus === 'NOT_AVAILABLE_BY_DA') {
+            productStatus = "NOT AVAILABLE";
+        } else if (cart.productStatus === 'CUSTOMER_REJECTED') {
+            productStatus = "RETURNED";
+        }
+        if (cart.productStatus !== 'CUSTOMER_PLACED') {
+            return <Typography variant="caption" color="textSecondary" className={classes.unit}>
+                {productStatus}
+            </Typography>
+        }
     }
 
     return (
@@ -48,20 +66,21 @@ const OrderSummaryItem = (props) => {
                 <Grid container spacing={1} >
                     <Grid item xs={12} container spacing={1}>
                         <Grid item xs={1} container direction="column">
-                            <Typography variant="body2" color="textPrimary" className={classes.quantity}>
+                            <Typography variant="body2" color={colorWithStatus("primary")} className={classes.quantity}>
                                 {cart.quantity}x
                             </Typography>
                         </Grid>
                         <Grid item xs container direction="column">
-                                <Typography variant="body2" color="textPrimary" className={classes.product}>
+                                <Typography variant="body2" color={colorWithStatus("textPrimary")} className={classes.product}>
                                     {cart.productBrand ? cart.productBrand + ' ': ''}{cart.productName}
                                 </Typography>
-                                <Typography variant="caption" color="textSecondary" className={classes.unit}>
+                                <Typography variant="caption" color={colorWithStatus("textSecondary")} className={classes.unit}>
                                     {cart.perProductUnit}
                                 </Typography>
                         </Grid>
-                        <Grid item xs={3} className={classes.priceDisplay}>
+                        <Grid item xs={5} className={classes.priceDisplay}>
                             {getPriceDisplay()}
+                            {getProductStatus()}
                         </Grid>
                     </Grid>
                 </Grid>

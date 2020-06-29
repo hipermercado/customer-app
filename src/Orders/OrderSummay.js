@@ -81,10 +81,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Item = () => {
-
-}
-
 const OrderSummary = (props) => {
     const order = props.location.state.order;
     const classes = useStyles();
@@ -168,7 +164,7 @@ const OrderSummary = (props) => {
                     <Grid item xs={3} style={{textAlign: 'end'}}>
                         <Typography variant="body2" noWrap={true} 
                             className={classes.itemsTotal}>
-                            &#8377;{Number(order.totalPrice) - Number(order.deliveryFee)}
+                            &#8377;{Number(order.totalPrice) - Number(order.deliveryFee) <= 0 ? 0 : Number(order.deliveryFee)}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -184,7 +180,7 @@ const OrderSummary = (props) => {
                     <Grid item xs={3} style={{textAlign: 'end'}}>
                         <Typography variant="body2" noWrap={true} 
                             className={classes.itemsTotal}>
-                            {Number(order.deliveryFee) === 0 ? 'FREE' : <React.Fragment>&#8377;{order.deliveryFee}</React.Fragment>}
+                            {Number(order.totalPrice) <= 0 ? 'FREE' : <React.Fragment>&#8377;{order.deliveryFee}</React.Fragment>}
                         </Typography>
                     </Grid>
                 </Grid>
