@@ -337,13 +337,15 @@ const Cart = (props) => {
                         <Divider />
                     </Grid>
                     {cart.length !== 0 ?
-                    <Grid item xs={12}>
-                        {getOrderSummary()}
-                    </Grid>
+                    <React.Fragment>
+                        <Grid item xs={12}>
+                            {getOrderSummary()}
+                        </Grid>
+                        <Grid item xs={12}>
+                            {getAddressBar()}
+                        </Grid>
+                    </React.Fragment>
                     : null }
-                    <Grid item xs={12}>
-                        {getAddressBar()}
-                    </Grid>
                     <Grid item xs={12}>
                         {getCheckoutButton()}
                     </Grid>  

@@ -34,11 +34,11 @@ const OrderSummaryItem = (props) => {
     const classes = useStyles();
 
     const colorWithStatus = (color) => {
-        return cart.productStatus === 'CUSTOMER_PLACED' ? color : "textSecondary";
+        return cart.productStatus === 'CUSTOMER_PLACED' || cart.productStatus === 'PARTIALLY_AVAILABLE' ? color : "textSecondary";
     }
 
     const getPriceDisplay = () => {
-        const calculatedPrice = Number(cart.quantity) * Number(cart.buyingPrice)
+        const calculatedPrice = Number(cart.availableQuantity) * Number(cart.buyingPrice)
         return (
             <Typography variant="subtitle2" color={colorWithStatus("secondary")}>
                 &#8377;{calculatedPrice}
@@ -52,10 +52,12 @@ const OrderSummaryItem = (props) => {
             productStatus = "NOT AVAILABLE";
         } else if (cart.productStatus === 'CUSTOMER_REJECTED') {
             productStatus = "RETURNED";
+        } else if (cart.productStatus === 'PARTIALLY_AVAILABLE') {
+            productStatus = "NOT AVAILABLE";
         }
         if (cart.productStatus !== 'CUSTOMER_PLACED') {
             return <Typography variant="caption" color="textSecondary" className={classes.unit}>
-                {productStatus}
+                {cart.quantity - cart.availableQuantity} {productStatus}
             </Typography>
         }
     }
@@ -67,7 +69,7 @@ const OrderSummaryItem = (props) => {
                     <Grid item xs={12} container spacing={1}>
                         <Grid item xs={1} container direction="column">
                             <Typography variant="body2" color={colorWithStatus("primary")} className={classes.quantity}>
-                                {cart.quantity}x
+                                {cart.availableQuantity}x
                             </Typography>
                         </Grid>
                         <Grid item xs container direction="column">
