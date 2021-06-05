@@ -2,7 +2,7 @@ import Amplify, { Auth, API } from 'aws-amplify';
 import { getJwtToken, getUserName } from '../Cache/cognito-user-cache';
 
 class AddressAPI {
-    apiName = 'AddressAPI';
+    apiName = 'AddressAPI-Ramsons';
     getAddressForCurrentUser = async () => {
         let queryStringParameters = {};
         const userId = await getUserName();

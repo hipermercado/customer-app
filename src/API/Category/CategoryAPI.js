@@ -2,7 +2,7 @@ import { API } from 'aws-amplify';
 import { getJwtToken } from '../Cache/cognito-user-cache';
 
 class CategoryAPI {
-    apiName = 'CategoryAPI';
+    apiName = 'CategoryAPI-Ramsons';
     get = async (type, categoryId) => {
         let queryStringParameters = {};
         if (categoryId !== undefined) {

@@ -3,6 +3,18 @@ const ENV = "prod/";
 const awsAPIConfig = {
     endpoints: [
         {
+            name: "AddressAPI-Ramsons",
+            endpoint: "https://vepl1p95cb.execute-api.ap-south-1.amazonaws.com/" + ENV
+        },
+        {
+            name: "ProductAPI-Ramsons",
+            endpoint: "https://8z6bi66j72.execute-api.ap-south-1.amazonaws.com/" + ENV
+        },
+        {
+            name: "CategoryAPI-Ramsons",
+            endpoint: "https://l6sfhfgdpg.execute-api.ap-south-1.amazonaws.com/" + ENV
+        },
+        {
             name: "AddressAPI",
             endpoint: "https://9yhpqamrlj.execute-api.ap-south-1.amazonaws.com/" + ENV
         },
