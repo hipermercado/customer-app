@@ -2,7 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "com.truhub.twa",
+    "package_name": "com.ramsons.twa",
     "sha256_cert_fingerprints": [
       "36:30:64:98:08:A1:FE:D4:CA:B7:16:33:8C:56:37:47:F0:4D:4F:5F:12:23:C3:3A:94:F5:6D:57:03:CC:E4:56"
     ]

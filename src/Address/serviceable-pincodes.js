@@ -1,5 +1,5 @@
 const serviceablePincodes = [
-    '144505'
+    '144514'
 ];
 
 export default serviceablePincodes;
