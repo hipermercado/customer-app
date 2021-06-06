@@ -5,7 +5,7 @@ const majorVersion="1";
 const minorVersion="0";
 const patch="0";
 const dot=".";
-const minVersionStepForSignout = 2;
+const minVersionStepForSignout = 5;
 const currVersion = majorVersion+dot+minorVersion+dot+patch;
 
 const updateVersion = () => {
