@@ -55,7 +55,7 @@ const CarouselWrapper = (props) => {
                 responsive={responsive}
                 ssr={true} // means to render carousel on server-side.
                 //customTransition="all .5"
-                transitionDuration={2000}
+                transitionDuration={500}
                 removeArrowOnDeviceType={["mobile"]}
                 deviceType={"mobile"}
                 >
