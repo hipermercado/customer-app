@@ -3,7 +3,7 @@ import Amplify, { Auth, API } from 'aws-amplify';
 import { getJwtToken, getUserName } from '../Cache/cognito-user-cache';
 
 class OrderAPI {
-    apiName = 'OrdersAPI';
+    apiName = 'OrdersAPI-Ramsons';
 
     getOrdersFromPastXMilliseconds = async (deltaTime) => {
         let queryStringParameters = {};

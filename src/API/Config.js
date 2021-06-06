@@ -15,6 +15,10 @@ const awsAPIConfig = {
             endpoint: "https://l6sfhfgdpg.execute-api.ap-south-1.amazonaws.com/" + ENV
         },
         {
+            name: "OrdersAPI-Ramsons",
+            endpoint: "https://4mk16nekv5.execute-api.ap-south-1.amazonaws.com/" + ENV
+        },
+        {
             name: "AddressAPI",
             endpoint: "https://9yhpqamrlj.execute-api.ap-south-1.amazonaws.com/" + ENV
         },

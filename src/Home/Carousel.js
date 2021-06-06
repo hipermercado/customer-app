@@ -23,8 +23,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const images = [
-    "https://24by7.store/wp-content/uploads/2020/04/grocery_banner.jpg",
-    "https://mobisoftinfotech.com/resources/wp-content/uploads/2018/11/Future.png"
+    "https://ramsons-banners.s3.ap-south-1.amazonaws.com/samosa+banner.jpg",
+    "https://ramsons-banners.s3.ap-south-1.amazonaws.com/chana+poori.JPG",
+    "https://ramsons-banners.s3.ap-south-1.amazonaws.com/dokla+banner.jpg",
+    "https://ramsons-banners.s3.ap-south-1.amazonaws.com/caker+banner.jpg",
+    "https://ramsons-banners.s3.ap-south-1.amazonaws.com/banner+rasmalai.jpg",
+    "https://ramsons-banners.s3.ap-south-1.amazonaws.com/banner+laddu.jpg",
+    "https://ramsons-banners.s3.ap-south-1.amazonaws.com/banner+biscuit+2.jpg"
 ]
 
 const responsive = {
@@ -44,10 +49,13 @@ const CarouselWrapper = (props) => {
                 partialVisible={true}
                 draggable={false}
                 showDots={false}
+                autoPlay={true}
+                infinite={true}
+                autoPlaySpeed={5000}
                 responsive={responsive}
                 ssr={true} // means to render carousel on server-side.
-                customTransition="all .5"
-                transitionDuration={500}
+                //customTransition="all .5"
+                transitionDuration={2000}
                 removeArrowOnDeviceType={["mobile"]}
                 deviceType={"mobile"}
                 >
