@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     paper: {
-        padding: theme.spacing(1),
+        padding: theme.spacing(0),
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '0.65rem',
     },
     categoryImage: {
-        height: '40px',
-        width: '40px',
+        height: '50px',
+        width: '50px',
     },
 }));
 
